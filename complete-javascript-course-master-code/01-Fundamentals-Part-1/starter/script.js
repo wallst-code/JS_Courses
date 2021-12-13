@@ -52,5 +52,7 @@
 let fName = "Johnny";
 let fNameNew = `${fName}`;
 
-
 console.log(fNameNew);
+
+const firstName = "Senit";
+console.log(firstName);
