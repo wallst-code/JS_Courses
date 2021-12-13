@@ -56,4 +56,53 @@ const lastName = 'Corey';
 console.log(firstName + ' ' + lastName); //Concatenation but there is an easier way with...
 console.log(`${firstName} ${lastName}`); //this uses the back ticks (` `) and $ with curly brackets (`${variable}`). String interpolation. */
 
+//Arrays
+
+const people = ['Tim', 'Sue', 'Mary', 'Bob']; //This creates an array object. You cannot create a new array because of the const, but you can change the values within that are held in the array.
+people.push('Leeloo'); //appends a value to the end of the array.
+console.log(people);
+
+const lastPerson = people.pop(); //pops the last element. There we capture it with a new variable, but it is popped out of the people[].
+console.log(people);
+console.log(people[2]); //remember zero index count - starts with zero. 
+console.log(lastPerson);
+
+//What if we do not know the index of the item within the array?
+
+console.log(people.indexOf('Bob')); //this will return the index position of the item. 'Bob' returns index of 3.
+// If it is not in the index, you will get a -1 result. You can use this number result for checking if name is unique - if -1, then it is, but if a positive number it is not. 
+
+//Filter - very useful
+
+console.log(lastPerson.startsWith('Lee')); //boolean result this is case sensative. 
+
+people.push('Tom');
+people.push('Tammy');
+people.push('Barry');
+
+console.log(people);
+
+const coolPeople = people.filter(function(person){
+    return person.startsWith('T') === true;
+}) //function encapsulates a bit of code to run on every element within the target array. It got called once for each person in the list. It gives us a true or false value and then if true do x. 
+
+console.log(coolPeople);
+
+//Substring 
+console.log(lastPerson.substring(0, 1)); //start index number and end position. 
+
+//Map
+
+const firstLetters = people.map(function(person){
+    return person.substring(0, 1);
+});
+
+console.log(firstLetters);
+
+
+
+
+
+
+
 
