@@ -60,7 +60,7 @@ console.log(`${firstName} ${lastName}`); //this uses the back ticks (` `) and $ 
 
 const people = ['Tim', 'Sue', 'Mary', 'Bob']; //This creates an array object. You cannot create a new array because of the const, but you can change the values within that are held in the array.
 people.push('Leeloo'); //appends a value to the end of the array.
-console.log(people);
+// console.log(people);
 
 const lastPerson = people.pop(); //pops the last element. There we capture it with a new variable, but it is popped out of the people[].
 console.log(people);
@@ -98,6 +98,11 @@ const firstLetters = people.map(function(person){
 });
 
 console.log(firstLetters);
+
+//Loops
+
+
+
 
 
 
