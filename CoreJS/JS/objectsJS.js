@@ -19,9 +19,9 @@ const person = {
 
     // thisTest: this,
 
-    fullName: function() {
-        return `${this.personFirstName} ${this.personLastName}`;
-    } // Note the use of the "this" keyword. "this" is looking for information within the object iwhtin its scope. //in the function, the "this" refers to its parent the object iteself. 
+    // fullName: function() {
+    //     return `${this.personFirstName} ${this.personLastName}`;
+    // } // Note the use of the "this" keyword. "this" is looking for information within the object iwhtin its scope. //in the function, the "this" refers to its parent the object iteself. 
     //With JavaScript - this can get a bit confusing...a bit different than other languages - I think. 
     // fullName: () => `${this.personFirstName} ${this.personLastName}` //Arrow function...BUT "this" is different when using an arrow function. 
 };
@@ -43,9 +43,17 @@ const person = {
 // console.log(fn);
 // console.log();
 
-for (const prop in person){
-    console.log(`${prop}: ${person[prop]}`);
-} 
+// for (const prop in person){
+//     console.log(`${prop}: ${person[prop]}`);
+// } 
+
+// for (const p in person){
+//     if (person.hasOwnProperty.call(person, p)){ // the onlu reason to use this hasOwnProperty is to check if the object is inheriting from a parent. 
+//         const element = person[p];
+//         console.log(element);
+//     }
+// }
+
 
 // for (const prop in person) {
 //     if (Object.hasOwnProperty.call(person, prop)) {
@@ -53,4 +61,15 @@ for (const prop in person){
 //     }
 // }
 
+//Talking to APIs (Application Programming Interface): A way for one computer to talk to another (server and client generally).
+//JSON Data - to demonstrate this we turned off our fullName function. we could do that by using delete person.fullName; as well. 
+
+console.log(JSON.stringify(person)); //this prepares it to go to an API.
+
+const recievedInfo = JSON.stringify(person); //note the stringify will actually strip out the function in the object - thus we did not need to delete it.
+
+const parsedInfo = JSON.parse(recievedInfo);
+
+console.log(parsedInfo);
+console.log(parsedInfo.personFirstName);
 
