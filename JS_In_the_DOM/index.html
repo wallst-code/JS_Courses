@@ -10,6 +10,7 @@
   <body>
     <main>
       <h1>JavaScript In The DOM</h1>
+      <nav><a href="createHTML.html">Create HTML with JS</a></nav>
       <p id="first-paragraph">
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas
         beatae recusandae, totam similique in sint illo laudantium, repellendus
@@ -57,20 +58,50 @@
       // const p1 = document.querySelector('p');
       // p1.classList.add('dark-mode');
 
-      const paragraphs = document.querySelectorAll('p');
+      // const paragraphs = document.querySelectorAll('p');
+      // // paragraphs.forEach(el => {
+      // //   el.classList.remove('support-paragraph');
+      // //   el.classList.add('dark-mode');
+      // // });
+
       // paragraphs.forEach(el => {
-      //   el.classList.remove('support-paragraph');
-      //   el.classList.add('dark-mode');
+      //   if (el.classList.contains('support-paragraph')){
+      //     el.classList.add('dark-mode');
+      //   }
       // });
 
-      paragraphs.forEach(el => {
-        if (el.classList.contains('support-paragraph')){
-          el.classList.add('dark-mode');
-        }
-      });
+      // const section = document.getElementById('list-section');
+      // const list = section.querySelector('ul'); //This went to a specific area to find an element. We ran a queryselector on the section. We went from document to list and found the element.
+      // const items = list.children;
+      // const itemsArray = Array.from(items);
 
+      // itemsArray.forEach(el => console.log(el));
+      // for(let i = 0; i < items.length; i++){
+      //   console.log(items[i]);
+      // }
 
-      
+      // const section = document.getElementById('key-items');
+      // const parent = section.parentElement;
+      // const mainElement = section.closest('main');
+      // console.log(mainElement);
+      //Closest will look for matches above --- I think - it works by looking at indents - and moving up is moving out 1 level and searching in is moving in one level or tab in.
+
+      let listItem = document.querySelector("h1");
+      // console.log(listItem);
+      // // but now you need the 2nd list item --- two ways: nextElementSibling, previousElementSibling
+
+      // const nextItem = listItem.nextElementSibling;
+      // console.log(nextItem);
+
+      // const finalItem = nextItem.nextElementSibling;
+      // console.log(finalItem);
+
+      // const unknownItem = finalItem.nextElementSibling;
+      // console.log(unknownItem);
+      while (listItem !== null) {
+        console.log(listItem);
+        listItem = listItem.nextElementSibling;
+      }
     </script>
   </body>
 </html>
