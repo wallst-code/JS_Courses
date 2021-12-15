@@ -39,19 +39,38 @@
         </ul>
       </div>
     </main>
-    <script src="app.js"></script>
+    <!-- <script src="app.js"></script> -->
     <script>
-      //DOM, window, document
-      // const demo = document.getElementById('list-section');
-      // console.log(demo);
-      // let p = document.querySelector('.support-paragraph'); //This selects only the first one.
-      // console.log(p);
+      // const p = document.getElementById('first-paragraph');
+      // p.innerText = 'This is a test.'
 
-      let q = document.querySelectorAll("p");
-      q.forEach((el) => console.log(el)); //lambda to iterate through multiple items.
+      // const list = document.querySelector('ul');
+      // list.innerHTML = '<li>test 1</li><li>test 2</li>';
 
-      p = document.querySelector("div ul li"); //dials into more specific elements - but gets the first.
-      console.log(p);
+      // const p2 = document.querySelector('.support-paragraph');
+      // p2.remove();
+
+      // const headingItem = document.querySelector('h1');
+      // headingItem.style.color = 'red';
+      // headingItem.style.fontSize = '1.25rem';
+
+      // const p1 = document.querySelector('p');
+      // p1.classList.add('dark-mode');
+
+      const paragraphs = document.querySelectorAll('p');
+      // paragraphs.forEach(el => {
+      //   el.classList.remove('support-paragraph');
+      //   el.classList.add('dark-mode');
+      // });
+
+      paragraphs.forEach(el => {
+        if (el.classList.contains('support-paragraph')){
+          el.classList.add('dark-mode');
+        }
+      });
+
+
+      
     </script>
   </body>
 </html>
