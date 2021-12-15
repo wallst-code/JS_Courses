@@ -40,9 +40,51 @@
           <li>Our Third LI</li>
         </ul>
       </div>
+      <div id="good-foods"></div>
+      <div id="add-para"></div>
     </main>
-    <script src="app.js">
+    <script>
+        // const list = document.getElementById('key-items');
+        // console.log(list);
+        // list.innerHTML += '<li>Out Fourth LI -- we add this with JS</li>';
+
+        // const foods = ['Hamburgers', 'Hot Dogs', 'Bread', 'Pasta'];
+        // const foodList = document.getElementById('good-foods');
+
+        // foods.forEach(food => {
+        //     // foodList.innerHTML += `<li>${food}</li>`;
+        //     const el = document.createElement('li');
+        //     el.innerText = food;
+        //     foodList.appendChild(el);
+        // })
+
+        //most efficient 
+
+        const foods = ['Hamburgers', 'Hot Dogs', 'Bread', 'Pasta', 'Melon'];
+        const foodList = document.getElementById('good-foods');
+
+        const fragment = new DocumentFragment();
+        foods.forEach(food => {
+            const el = document.createElement('li');
+            el.innerText = food;
+            fragment.appendChild(el);
+        });
+
+        foodList.appendChild(fragment);
+
+        const newParagraph = ['Meat', 'Potato', 'Whiskey']; 
+        const wordBlock = document.getElementById('add-para');
+
+        const newFragment = new DocumentFragment();
+        newParagraph.forEach(newPara => {
+            const elo = document.createElement('h2');
+            elo.innerText = newPara;
+            fragment.appendChild(elo);
+        });
+
+        wordBlock.appendChild(fragment);
         
+                
 
 
     </script>
