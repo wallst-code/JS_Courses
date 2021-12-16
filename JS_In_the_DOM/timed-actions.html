@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/site.css" />
-    <title>JavaScript Events</title>
+    <title>JavaScript Timed Actions</title>
   </head>
   <body>
     <main>
@@ -17,7 +17,7 @@
         <a href="forms.html">Forms</a>
       </nav>
 
-      <h1>JavaScript Events</h1>
+      <h1>JavaScript Timed Actions</h1>
 
       <!-- <p id="first-paragraph">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas
@@ -51,13 +51,12 @@
     </main>
 
     <script>
-
-      'use strict';
+      "use strict";
       let i = 4;
 
-      const list = document.getElementById('key-items');
+      const list = document.getElementById("key-items");
 
-      const addAction = document.getElementById('add-to-list');
+      const addAction = document.getElementById("add-to-list");
 
       // Adding a function in line with an arrow function.
       // addAction.addEventListener('click', (e) => {
@@ -69,45 +68,16 @@
 
       // });
 
-      addAction.addEventListener('click', addFromLink);
+      addAction.addEventListener("click", addFromLink);
 
-      function addFromLink (e) {
-            e.preventDefault; // prevents the default element here the # tag in the URL.
-            const li = document.createElement('li');
-            li.innerText = `LI from anchor tag #${i}`;
-            i++;
-            list.appendChild(li);
-            addAction.removeEventListener('click', addFromLink); // This removes the action after it triggers once. 
+      function addFromLink(e) {
+        e.preventDefault; // prevents the default element here the # tag in the URL.
+        const li = document.createElement("li");
+        li.innerText = `LI from anchor tag #${i}`;
+        i++;
+        list.appendChild(li);
+        addAction.removeEventListener("click", addFromLink); // This removes the action after it triggers once.
       }
-            
-
-
-
-        // const mainElement = document.querySelector('main');
-        // const list = document.getElementById('key-items');
-        // const mainHeading = document.querySelector('h1');
-        // let i = 4;
-
-        // mainElement.addEventListener('click', addLi); // the scope of the 'click' event listener is within the <main>. 
-        // mainHeading.addEventListener('click', addLiFormH1);
-
-        // function addLi (e) {
-        //     const fragment = document.createDocumentFragment();
-        //     const li = document.createElement('li');
-        //     li.innerText = `LI #${i}`;
-        //     i++; 
-        //     fragment.appendChild(li);
-        //     list.appendChild(fragment); 
-        // }
-
-        // function addLiFormH1 (e) {
-        //     e.stopPropagation(); //stops both functions from running at the same time. Your events should actually bubble up. So rarely use this. The standard is to allow bubbling.
-        //     const li = document.createElement('li');
-        //     li.innerText = `LI from H1 #${i}`;
-        //     i++;
-        //     list.appendChild(li); // this one will appear first because of bubbling. 
-        // }
-
     </script>
   </body>
 </html>
