@@ -67,7 +67,7 @@
         }
 
         function addLiFormH1 (e) {
-            
+            e.stopPropagation(); //stops both functions from running at the same time.
             const li = document.createElement('li');
             li.innerText = `LI from H1 #${i}`;
             i++;
