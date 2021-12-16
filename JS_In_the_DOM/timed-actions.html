@@ -47,37 +47,96 @@
           <li>Our Second LI</li>
           <li>Our Third LI</li>
         </ul>
+        <div>
+            <h2 id="display-message">Send Demo Email</h2>
+            <p id="status-message"></p>
+            <a id="send-email" href="#">Send Email with Mistake</a>
+            <br>
+            <br>
+            <a id="recall-email" href="#">Recall Email</a>
+        
+        
+        </div>
       </div>
     </main>
 
     <script>
       "use strict";
+// Set to strict
+// Set up "global" variables (higher in scope for all functions) and capture/grab elements by id. 
+
       let i = 4;
-
       const list = document.getElementById("key-items");
-
       const addAction = document.getElementById("add-to-list");
+      const displayMessage = document.getElementById('display-message');
+      let timeoutId = 0;
+      const sendEmailAnchor = document.getElementById('send-email'); // This grabs the element that we want by id.
+      const cancelEmailAnchor = document.getElementById('recall-email');
+      const statusMessage = document.getElementById('status-message');
+      let countDown = 10;
 
-      // Adding a function in line with an arrow function.
-      // addAction.addEventListener('click', (e) => {
-      //       e.preventDefault; // prevents the default element here the # tag in the URL.
-      //       const li = document.createElement('li');
-      //       li.innerText = `LI from anchor tag #${i}`;
-      //       i++;
-      //       list.appendChild(li);
+      //Set up event listeners
+    sendEmailAnchor.addEventListener('click', sendEmail); //sets up the listener for the element and sends the logic - calls the function
+    cancelEmailAnchor.addEventListener('click', cancelEmail); // the reason you do not add () after cancelEmail is that you are not calling the function here, you are passing it as a parameter so it fires with a click event. 
 
-      // });
 
-      addAction.addEventListener("click", addFromLink);
-
-      function addFromLink(e) {
-        e.preventDefault; // prevents the default element here the # tag in the URL.
-        const li = document.createElement("li");
-        li.innerText = `LI from anchor tag #${i}`;
-        i++;
-        list.appendChild(li);
-        addAction.removeEventListener("click", addFromLink); // This removes the action after it triggers once.
+     //Set up logic with functions
+      function sendEmail (e) {
+          e.preventDefault();
+          timeoutId = setTimeout(countDownToSend); //runs the timer immediately or we can set (method, 1000) every thousand is 1 second.
       }
+
+      function countDownToSend () {
+          if (countDown > 0) {
+              statusMessage.innerText = `Email will send in ${countDown} seconds...`;
+              countDown--;
+              timeoutId = setTimeout(countDownToSend, 1000);
+          } else {
+              actuallySendEmail();
+              countDown = 10;
+          }          
+      }
+
+      function cancelEmail (e) {
+          e.preventDefault();
+          clearTimeout(timeoutId);
+          cancelSendEmail();
+      }
+
+      function actuallySendEmail () {
+          displayMessage.innerText = 'The email has been sent!!!!!';
+      }
+
+      function cancelSendEmail () {
+          displayMessage.innerText = 'The email has been recalled.';
+          statusMessage.innerText = '';
+      }
+
+      
+
+
+     
+    //   addAction.addEventListener("click", addFromLink);
+
+    //   function addFromLink(e) {
+    //     e.preventDefault; // prevents the default element here the # tag in the URL.
+    //     const li = document.createElement("li");
+    //     li.innerText = `LI from anchor tag #${i}`;
+    //     li.classList.add('new-item');
+    //     i++;
+    //     list.appendChild(li);
+    //     setTimeout(removeNewItemClass, 2000, li);  //you do not need the () for the removenNewClass() - will  call this function after 2 seconds. 
+    //     // addAction.removeEventListener("click", addFromLink); // This removes the action after it triggers once.
+    //   }
+
+    //   function removeNewItemClass(item) {
+    //     //   const items = list.querySelectorAll('.new-item');
+    //     //   const itemsArray = Array.from(items);
+    //     //   itemsArray.forEach(el => el.classList.remove('new-item'));
+    //     item.classList.remove('new-item'); //item is the passed in 'li' from the addFormLink. This makes it cascade more with separate timing of removing. 
+    //   }
+
+
     </script>
   </body>
 </html>
