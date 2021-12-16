@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/site.css" />
+    <title>JavaScript Events</title>
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a href="index.html">Home | </a
+        ><a href="createHTML.html">Create HTML | </a
+        ><a href="events.html">Events</a>
+      </nav>
+
+      <h1>JavaScript Events</h1>
+
+      <!-- <p id="first-paragraph">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas
+          beatae recusandae, totam similique in sint illo laudantium, repellendus
+          officiis maxime eaque quasi voluptates perspiciatis. Numquam, totam
+          eaque. Unde, autem nam! Lorem ipsum dolor sit, amet consectetur
+          adipisicing elit. Voluptas beatae recusandae, totam similique in sint
+          illo laudantium, repellendus officiis maxime eaque quasi voluptates
+          perspiciatis. Numquam, totam eaque. Unde, autem nam!
+        </p>
+        <p id="second-paragraph" class="support-paragraph">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus
+          porro autem sunt magni voluptas exercitationem qui sed dolor corrupti
+          ipsa dicta rerum, itaque enim provident ullam. Necessitatibus vitae ut
+          quidem.lorem
+        </p>
+        <p id="third-paragraph" class="support-paragraph">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam veniam
+          repellat natus assumenda eum itaque neque animi quae est, atque aperiam.
+          Fugit reiciendis minima, cumque perspiciatis qui est consequatur
+          officia?
+        </p> -->
+      <div id="list-section">
+        <ul id="key-items">
+          <li>Our First LI</li>
+          <li>Our Second LI</li>
+          <li>Our Third LI</li>
+        </ul>
+      </div>
+    </main>
+
+    <script>
+
+        const mainElement = document.querySelector('main');
+        const list = document.getElementById('key-items');
+        const mainHeading = document.querySelector('h1');
+        let i = 4;
+
+        mainElement.addEventListener('click', addLi); // the scope of the 'click' event listener is within the <main>. 
+        mainHeading.addEventListener('click', addLiFormH1);
+
+        function addLi (e) {
+            const fragment = document.createDocumentFragment();
+            const li = document.createElement('li');
+            li.innerText = `LI #${i}`;
+            i++; 
+            fragment.appendChild(li);
+            list.appendChild(fragment); 
+        }
+
+        function addLiFormH1 (e) {
+            
+            const li = document.createElement('li');
+            li.innerText = `LI from H1 #${i}`;
+            i++;
+            list.appendChild(li); // this one will appear first because of bubbling. 
+        }
+
+    </script>
+  </body>
+</html>
