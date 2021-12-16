@@ -18,38 +18,63 @@
       </nav>
 
       <h1>JavaScript Forms</h1>
-
-      <!-- <p id="first-paragraph">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas
-          beatae recusandae, totam similique in sint illo laudantium, repellendus
-          officiis maxime eaque quasi voluptates perspiciatis. Numquam, totam
-          eaque. Unde, autem nam! Lorem ipsum dolor sit, amet consectetur
-          adipisicing elit. Voluptas beatae recusandae, totam similique in sint
-          illo laudantium, repellendus officiis maxime eaque quasi voluptates
-          perspiciatis. Numquam, totam eaque. Unde, autem nam!
-        </p>
-        <p id="second-paragraph" class="support-paragraph">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus
-          porro autem sunt magni voluptas exercitationem qui sed dolor corrupti
-          ipsa dicta rerum, itaque enim provident ullam. Necessitatibus vitae ut
-          quidem.lorem
-        </p>
-        <p id="third-paragraph" class="support-paragraph">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam veniam
-          repellat natus assumenda eum itaque neque animi quae est, atque aperiam.
-          Fugit reiciendis minima, cumque perspiciatis qui est consequatur
-          officia?
-        </p> -->
+      <form action="" method="POST">
+        <div>
+          <label for="fullName">Full Name: </label>
+          <br />
+          <input id="fullName" type="text" name="fullName" required />
+          <br />
+          <br />
+        </div>
+        <label for="guests">Number of Guests: </label>
+          <br />
+          <input id="guests" type="number" name="guests" required />
+          <br />
+          <br />
+        </div>
+        <div>
+          <button id="submit" type="submit">Submit</button>
+          <button id="reset" type="reset">Reset</button>
+        </div>
+      </form>
       <div id="list-section">
-        <a id="add-to-list" href="#">Add New Element To List</a>
-        <ul id="key-items">
-          <li>Our First LI</li>
-          <li>Our Second LI</li>
-          <li>Our Third LI</li>
-        </ul>
+        <h2>Guestbook Entries</h2>
+        <small>Total guests: <span id="totalGuests"></span></small>
+        <ul id="items"></ul>
       </div>
     </main>
+    <script>
+      "use strict";
+      //Capture elements
+      const submitButton = document.getElementById('submit');
+      const fullName = document.getElementById('fullName');
+      const resetButton = document.getElementById('reset');
+      const list = document.getElementById('items');
+      const guestsValue = document.getElementById('guests');
+      const totalGuestsSection = document.getElementById('totalGuests');
+      let totalGuestCount = 0;
 
-    <script></script>
+      //Set Listeners
+      submitButton.addEventListener('click', submitAction);
+      resetButton.addEventListener('click', resetAction);
+
+      //Functions
+      function submitAction (e) {
+          e.preventDefault();
+          const li = document.createElement('li');
+          li.innerText = fullName.value; // the .value is a built in keyword that indicates the forms input value. 
+          list.appendChild(li);
+          fullName.value = '';
+
+        //   totalGuestCount += Number(guestsValue.value); // Number will cast the input string into a number - but it must be a number or you'll get NaN. But we can do this another way in HTML 5.
+          totalGuestCount += guestsValue.valueAsNumber; //this works just as well. 
+          totalGuestsSection.innerText = totalGuestCount;
+          guestsValue.value = 0; //resets value for new entry
+      }
+
+      function resetAction (e) {
+          e.preventDefault();
+      }
+    </script>
   </body>
 </html>
