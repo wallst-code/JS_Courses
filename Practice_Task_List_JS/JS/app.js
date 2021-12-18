@@ -23,7 +23,36 @@
         pageItems.taskList.addEventListener('click', completeTask);
         pageItems.removeButton.addEventListener('click', removeCompletedTasks);
 
+        loadFromStorage();
     };
+
+    function loadFromStorage(){
+        const itemsString = localStorage.getItem('taskList');
+
+        if (itemsString !== null){
+            const items = JSON.parse(itemsString); //the opposite of stringify takes it to a JS string.
+            items.forEach(item => {
+                const li = document.createElement('li'); //create the element
+                li.innerText = item.task.toUpperCase(); //set the text
+                if (item.isComplete) {
+                    li.classList.add('completed-task');
+                }
+                pageItems.taskList.appendChild(li); 
+            });
+        }
+    }
+
+    function saveToStorage(){
+        const items = Array.from(pageItems.taskList.children);
+        const itemsToSave = items.map(item => {
+            return {
+                task: item.innerText,
+                isComplete: item.classList.contains('completed-task')
+            };
+        });
+        localStorage.setItem('taskList', JSON.stringify(itemsToSave));
+        console.log(itemsToSave);
+        }
 
     function addTask(e) {
         e.preventDefault;
@@ -32,6 +61,7 @@
         li.innerText = pageItems.taskInput.value.toUpperCase(); //set the text
         pageItems.taskList.appendChild(li); //append the text
         pageItems.taskInput.value = ''; //clears input box
+        saveToStorage();
         
        
     }
@@ -43,6 +73,7 @@
         } else {
             e.target.classList.add('completed-task'); //from css class - adds strike through to completed tasks upon click. 
         }
+        saveToStorage()
         
     }
 
@@ -57,6 +88,7 @@
                 pageItems.taskList.removeChild(el); // Removes child items that are completed tasks.
             }
         });
+        saveToStorage()
 
     }
     
@@ -64,3 +96,7 @@
 
 //How would you get the strike down items to move to the bottom? I do not know how to do this. A search did not reveal much. How would I put strikes on the bottom of the list. 
 //How would you sort the list? 
+
+//Session storage and local strorage
+
+
