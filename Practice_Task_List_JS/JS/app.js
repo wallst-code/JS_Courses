@@ -56,6 +56,7 @@
     }
 
     function loadChainedPromisedData(e){
+        pageItems.waitIndicator.style.display = 'block';
         const promise = new Promise(function(resolve, reject) {
             setTimeout(() => resolve('Promise #1'), 3000);
         });
@@ -69,7 +70,16 @@
         .then(result => {
             console.log('Promise #2 Succeeded');
         })
-        .finally(() => console.log('We have now completed all promises'));        
+        .catch(reason => { //catches any failures
+            console.error(`We a promise failure at ${reason}`);
+        })
+        .then(result => {
+            console.log('Promise after the catch has Succeeded');
+        })
+        .finally(() => {
+            console.log('We have now completed all promises');
+            pageItems.waitIndicator.style.display = 'none';
+        })         
     }
 
     function loadFromStorage(){
