@@ -15,7 +15,7 @@
         pageItems.loadData = document.getElementById('loadData');
         pageItems.waitIndicator = document.getElementById('wait-indicator');
 
-        pageItems.loadData.addEventListener('click', loadChainedPromisedData);
+        pageItems.loadData.addEventListener('click', loadSetsOfData);
 
 
     }
@@ -80,6 +80,39 @@
             console.log('We have now completed all promises');
             pageItems.waitIndicator.style.display = 'none';
         })         
+    }
+
+    function loadSetsOfData(e){
+        const promise1 = new Promise(function(resolve, reject) {
+            setTimeout(() => resolve('Promise #1'), 4000);
+        });
+
+        const promise2 = new Promise(function(resolve, reject) {
+            setTimeout(() => reject('Promise #2'), 1000);
+        });
+
+        const promise3 = new Promise(function(resolve, reject) {
+            setTimeout(() => resolve('Promise #3'), 1500);
+        });
+        // This is the concept of the "all or nothing" .all ---- if one fails they all fail. 
+        // Promise.all([promise1, promise2, promise3]) //made all of the promise print out at the same time - so all waited 4 seconds even if donw. Pass resutls as an array. BUt stops with rejection.
+        //     .then(results => console.log(results))
+        //     .catch(reason => console.error(reason))
+
+            //But if you want all of them to run
+        // Promise.allSettled([promise1, promise2, promise3]) //returns all even if one or mroe does fail. 
+        //     .then(results => console.log(results));
+            //no catch on .allSettled()
+        
+        //race - which one completes first reports the only one that will report
+        // Promise.race([promise1, promise2, promise3])
+        //     .then(results => console.log(results))
+        //     .catch(reason => console.error(reason))
+
+        //The first fulfilled or success or all rejected
+        Promise.any([promise1, promise2, promise3])
+            .then(results => console.log(results))
+            .catch(reason => console.error(reason))
     }
 
     function loadFromStorage(){
