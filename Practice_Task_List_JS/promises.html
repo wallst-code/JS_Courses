@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="site.css" />
+    <title>JS Promises Demo</title>
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a href="index.html">Task List Demo |</a
+        ><a href="promises.html"> Promises Demo </a>
+      </nav>
+      <div><h1>Promises Demo</h1></div>
+      <div><button id="loadData" type="button">Load the Data</button></div>
+      <div id="wait-indicator">
+        <img id="spinner" src="resources\spinner.gif" alt="waiting spinner" />
+        <p>Please wait...</p>
+      </div>
+    </main>
+    <script src="JS\app.js"></script>
+    <script>
+      app.promisesStartup();
+    </script>
+  </body>
+</html>
