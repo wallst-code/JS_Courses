@@ -15,7 +15,7 @@
         pageItems.loadData = document.getElementById('loadData');
         pageItems.waitIndicator = document.getElementById('wait-indicator');
 
-        pageItems.loadData.addEventListener('click', loadSetsOfData);
+        pageItems.loadData.addEventListener('click', loadAsyncData);
 
 
     }
@@ -113,6 +113,26 @@
         Promise.any([promise1, promise2, promise3])
             .then(results => console.log(results))
             .catch(reason => console.error(reason))
+    }
+
+    async function loadAsyncData(e){
+        try {
+            const results = await timingDemo('Promise #1');
+            console.log(results);
+
+            const results2 = await timingDemo('Promise #2');
+            console.log(results2);
+        } catch (err){
+            console.error(`There was an error in ${err}`);
+        }
+
+        console.log('We are all done');
+    }
+
+    function timingDemo(message){
+        return new Promise(function(resolve, reject) {
+            setTimeout(() => reject(message), 2000);
+        });
     }
 
     function loadFromStorage(){
