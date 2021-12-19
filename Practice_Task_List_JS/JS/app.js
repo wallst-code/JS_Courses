@@ -65,7 +65,7 @@
                 return response.json(); //converts JSON to JS object that we can use. 
             })
             .then(data => console.log(data))
-            .catch(reason => console.error(reson));
+            .catch(reason => console.error(reason));
 
     }
 

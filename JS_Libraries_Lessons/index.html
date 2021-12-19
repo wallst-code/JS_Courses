@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css">
+    <title>External Libraries Demo</title>
+</head>
+<body>
+    <main>
+        <h1>Task List Demo</h1>
+        <form id="taskForm" action="" method="POST">
+          <div>
+            <label for="taskInput">Task: </label>
+            <input id="taskInput" type="text" name="taskInput" required />
+          </div>
+          <div>
+            <button id="submit" type="submit">Add Task</button>
+            <button type="reset">Clear Form</button>    
+            </div>      
+        </form>
+        <div>
+          <ul id="taskList">            
+          </ul>
+        </div>
+      </main>
+      <!-- The order matters in how you list the dependcies or scripts - this one needs to be above the others.  -->
+      <script src="https://code.jquery.com/jquery-3.6.0.js" 
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" 
+      crossorigin="anonymous"></script> 
+      <script>
+        $('#taskForm').submit(function(e){
+          e.preventDefault();
+          const li = document.createElement('li');
+          li.innerText = $('#taskInput').val();
+          $('#taskList').append(li);
+          $('#taskInput').val(' ');
+        });
+
+        // $('li').click(function() {
+        //   console.log('I have been clicked');
+        // });
+
+        $(document).on('click', 'li', function(){ //this adds the strike through and removes it on click and click again. toggleClass - saves us from an if statement.
+          $(this).toggleClass('completed-task');
+        })
+
+      </script>
+</body>
+</html>
