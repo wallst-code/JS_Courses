@@ -24,6 +24,11 @@
         <ul id="taskList"></ul>
       </div>
     </main>
-   
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.2.0/build/global/luxon.min.js"></script>
+    <script>            
+            const val = luxon.DateTime.now().setZone('America/Los_Angeles').endOf('day').toISO();
+            console.log(val);
+
+    </script>   
   </body>
 </html>
