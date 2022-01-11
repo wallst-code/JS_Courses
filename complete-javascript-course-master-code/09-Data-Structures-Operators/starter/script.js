@@ -47,7 +47,127 @@ const restaurant = {
       `Here is your delicious pasta with ${ing1}, ${ing2}, and ${ing3}.`
     );
   },
+
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log('main ingredients = ', mainIngredient);
+    console.log('other ingredients = ', otherIngredients);
+  },
 };
+
+const rest1 = {
+  name: 'Capri',
+  numGuests: 0,
+};
+
+const rest2 = {
+  name: 'La Piazza',
+  owner: 'Randy',
+};
+
+//2021 update 3 new logical operators
+//Add numGuests to all
+// rest1.numGuests = rest1.numGuests || 10;
+// rest2.numGuests = rest2.numGuests || 10;
+// console.log('rest1', rest1, 'rest2', rest2);
+//This works due to short-circuiting - in the rest2 that property did not exist - so it was false and then used the default value and set it.
+
+//The new way to do it with an OR Operator - it works the same as above but is more concise.
+// This assigns a value to a variable if that variable is false.
+//If false then it runs the second part.
+//But we run into the zero problem again.
+// rest1.numGuests ||= 100;
+// rest2.numGuests ||= 100;
+// console.log('rest1', rest1, 'rest2', rest2);
+
+//We can use the Nullish Assignment Operator here as well. For null and undefined to short-circuit.
+// rest1.numGuests ??= 100;
+// rest2.numGuests ??= 100;
+// console.log('rest1', rest1, 'rest2', rest2);
+
+//Nullish Coalescing Operator (??)
+// restaurant.numGuests = 0;
+// const guests = restaurant.numGuests || 10;
+// console.log(guests);
+
+// The AND Short-Circuit trips when the first value is false.
+// rest1.owner = rest1.owner && '<ANONYMOUS>';
+// rest2.owner = rest2.owner && '<ANONYMOUS>';
+
+//The new way to do this.
+rest1.owner &&= '<ANONYMOUS>';
+rest2.owner &&= '<ANONYMOUS>';
+
+console.log(rest1);
+console.log(rest2);
+
+//***************************************************************************** */
+// // Nullish Coalescing Operator (??) - fixes the falsey problem with the or circuit breaker and 0 value.
+// // Nullish values = null and undefined. 0 or '' is not nullish.
+// // Only nullish values will short-circuit the evaluation.
+// // So if the 1st value was null or undefined, it would short-circuit.
+// const guestsCorrect = restaurant.numGuests ?? 10;
+// console.log(guestsCorrect);
+
+// // Spread Operator is on the right side of the "=".
+// const arr = [1, 2, ...[3, 4]];
+
+// // Rest Pattern - Operator is on the left hand side of the "=".
+// const [a, b, ...others] = [1, 2, 3, 4, 5];
+// console.log(a, b, others);
+
+// const [pizza, , risotto, ...otherFood] = [
+//   ...restaurant.mainMenu,
+//   ...restaurant.starterMenu,
+// ];
+// console.log(pizza, risotto, otherFood);
+
+// // Objects with the Rest Pattern
+// const { sat, ...weekdays } = restaurant.openingHours;
+// console.log(weekdays);
+
+// //Functions with the Rest Pattern
+// const add = function (...numbers) {
+//   let sum = 0;
+//   for (let i = 0; i < numbers.length; i++) sum += numbers[i];
+//   console.log(sum);
+// };
+// add(2, 3);
+// add(5, 3, 7, 2);
+// add(8, 2, 5, 3, 2, 1, 4);
+
+// //Now use the Spread Operator to send to the add() with the rest pattern.
+// const x = [23, 5, 7];
+// add(...x);
+
+// restaurant.orderPizza('Cheese', 'meat', 'onion', 'olives', 'sausage');
+// restaurant.orderPizza('cheese');
+
+// // Check to see if a value exists and if not set a value - uses a ternary operator. BUt neither will work if 0 is the value because it is falsey. BUt there is a solution.
+// restaurant.numGuests = 23;
+// const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+// console.log(guests1);
+
+// // Using Short-Circuit Operators and get the same result.
+// const guests2 = restaurant.numGuests || 10;
+// console.log(guests2);
+
+// console.log(
+//   '***********************AND Operator**********************************'
+// );
+// // The && Short-Circuit
+// console.log(0 && 'Jonas');
+// console.log(7 && 'Jonas');
+
+// console.log('hello' && 23 && null && 'jonas');
+// //null is a false value and so the logic short-circuits there.
+
+// if (restaurant.orderPizza) {
+//   restaurant.orderPizza('mushrooms', 'olives');
+// }
+
+// //This is exactly the same as the if statement above. It evaluates the first statement or value
+// // and then if true will run the second part...
+// restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'meat');
 
 //Get user input and place the data into an array that then you can use the spread operator on.
 // const ingredients = [
@@ -61,14 +181,14 @@ const restaurant = {
 
 //Since the 2018 ES6 update - the spread operator can be used on objects even though they are not iterables.
 //Objects - create a brand new object by copying the properties and you can add more using the spread operator.
-const newRestaurant = { foundedIn: 1998, ...restaurant, founder: 'Guiseppe' };
-console.log('new restaurant obj + additonal properties ', newRestaurant);
-console.log('original restaurant obj ', restaurant);
+// const newRestaurant = { foundedIn: 1998, ...restaurant, founder: 'Guiseppe' };
+// console.log('new restaurant obj + additonal properties ', newRestaurant);
+// console.log('original restaurant obj ', restaurant);
 
-const restaurantCopy = { ...restaurant };
-restaurantCopy.name = 'New name';
-console.log(restaurantCopy.name);
-console.log(restaurant.name);
+// const restaurantCopy = { ...restaurant };
+// restaurantCopy.name = 'New name';
+// console.log(restaurantCopy.name);
+// console.log(restaurant.name);
 
 // const arr = [7, 8, 9];
 // const badNewArray = [1, 2, arr[0], arr[1], arr[2]];
