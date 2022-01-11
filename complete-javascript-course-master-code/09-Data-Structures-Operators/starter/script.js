@@ -54,15 +54,31 @@ const restaurant = {
   },
 };
 
-const rest1 = {
-  name: 'Capri',
-  numGuests: 0,
-};
+// Looping using for...of loop
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 
-const rest2 = {
-  name: 'La Piazza',
-  owner: 'Randy',
-};
+for (const item of menu) console.log('standard for of loop: ', item);
+
+//To get the index with a for of loop is a bit different.
+for (const item of menu.entries()) {
+  console.log(`${item[0] + 1}: ${item[1]}`);
+}
+
+for (const [i, el] of menu.entries()) {
+  console.log(`${i + 1}: ${el}`);
+}
+
+// console.log([...menu.entries()]);
+
+// const rest1 = {
+//   name: 'Capri',
+//   numGuests: 0,
+// };
+
+// const rest2 = {
+//   name: 'La Piazza',
+//   owner: 'Randy',
+// };
 
 //2021 update 3 new logical operators
 //Add numGuests to all
@@ -94,11 +110,11 @@ const rest2 = {
 // rest2.owner = rest2.owner && '<ANONYMOUS>';
 
 //The new way to do this.
-rest1.owner &&= '<ANONYMOUS>';
-rest2.owner &&= '<ANONYMOUS>';
+// rest1.owner &&= '<ANONYMOUS>';
+// rest2.owner &&= '<ANONYMOUS>';
 
-console.log(rest1);
-console.log(rest2);
+// console.log(rest1);
+// console.log(rest2);
 
 //***************************************************************************** */
 // // Nullish Coalescing Operator (??) - fixes the falsey problem with the or circuit breaker and 0 value.
