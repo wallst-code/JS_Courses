@@ -4,6 +4,24 @@
 const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
+const weekdays = ['mon', 'tues', 'wed', 'thurs', 'fri', 'sat', 'sun'];
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
+
+//
 // Data needed for first part of the section
 const restaurant = {
   name: 'Classico Italiano',
@@ -11,23 +29,12 @@ const restaurant = {
   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  // openingHours: openingHours, //The old way.
+  //ES6 enhanced obj literals
+  openingHours,
 
-  openingHours: {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, // Open 24 hours
-      close: 24,
-    },
-  },
-
-  order: function (starterIndex, mainIndex) {
+  //ES6 Syntax for functions in obj - easier
+  order(starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
 
@@ -54,19 +61,77 @@ const restaurant = {
   },
 };
 
+const days = ['mon', 'tues', 'wed', 'thurs', 'fri', 'sat', 'sun'];
+
+//Loop through an array
+for (const day of Object.keys(openingHours)) {
+  console.log(day);
+}
+
+//Property Names
+console.log('************Keys*********************');
+const properties = Object.keys(openingHours);
+console.log(`We are open on ${properties.length} days`);
+
+let openStr = `We are open on ${properties.length} days: `;
+for (const day of properties) {
+  openStr += `${day}, `;
+}
+console.log(openStr);
+
+//Property Values
+console.log('************Property Values*************');
+
+const values = Object.values(openingHours);
+console.log(values);
+
+//Entries = Properties and Values together - returns the index number and the element or a key and value with an obj
+console.log('**********Entries***************');
+const entries = Object.entries(openingHours);
+// console.log(entries);
+
+//Here we used destructing and destructured an object within as well.
+for (const [key, { open, close }] of entries) {
+  console.log(`On a ${key} we open at ${open} and close at ${close}`);
+}
+
+for (const x of entries) console.log('Basic of loop ', x);
+//
+
+//
+// // Optional chaining
+// console.log('Opening Hours ', restaurant.openingHours.mon?.open);
+// console.log('Opening Hours ', restaurant.openingHours?.mon?.open);
+
+// // Here we use optional chaining and the nullish coalescing operator together.
+// for (const day of days) {
+//   const open = restaurant.openingHours[day]?.open ?? 'closed';
+//   console.log(`On ${day}, we open at ${open}.`);
+// }
+
+// //Methods and Optional Chaining
+// console.log(restaurant.order?.(0, 1) ?? 'Method does not exist');
+
+// console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist');
+
+// //Optional chaining and Arrays - check if empty
+// const users = [{ name: 'jonas', email: 'asfasdfsadfsdfsdfs' }];
+// console.log(users[0]?.name ?? 'User array empty');
+// console.log(users[4]?.name ?? 'User Array does not exist');
+
 // Looping using for...of loop
-const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+// const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 
-for (const item of menu) console.log('standard for of loop: ', item);
+// for (const item of menu) console.log('standard for of loop: ', item);
 
-//To get the index with a for of loop is a bit different.
-for (const item of menu.entries()) {
-  console.log(`${item[0] + 1}: ${item[1]}`);
-}
+// //To get the index with a for of loop is a bit different.
+// for (const item of menu.entries()) {
+//   console.log(`${item[0] + 1}: ${item[1]}`);
+// }
 
-for (const [i, el] of menu.entries()) {
-  console.log(`${i + 1}: ${el}`);
-}
+// for (const [i, el] of menu.entries()) {
+//   console.log(`${i + 1}: ${el}`);
+// }
 
 // console.log([...menu.entries()]);
 
