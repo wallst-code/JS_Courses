@@ -154,9 +154,102 @@ console.log(announcement.replaceAll('door', 'gate'));
 console.log(announcement.replace(/door/g, 'gate'));
 
 //3 simple methods that return booleans: includes(), startsWith(), endsWith().
-const newPlane = 'A320neo';
+const newPlane = 'Airbus A320neo';
 console.log(newPlane.includes('A320'));
 console.log(newPlane.includes('Boeing'));
 console.log(newPlane.startsWith('Air'));
 console.log(newPlane.startsWith('A3')); //This is true
 console.log(newPlane.endsWith('ing'));
+
+if (newPlane.startsWith('Airbus') && newPlane.endsWith('neo'))
+  console.log('True - new part of the Airbus lineup.');
+
+//Practice Exercise
+/*Note when we receive input from a user, we generally start by putting everything in lower case
+to normalize the data
+ */
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('🚫 You are not allowed on board.');
+  } else {
+    console.log('🙂 Welcome aboard - enjoy your flight.');
+  }
+};
+
+checkBaggage('Lap top, some Food, and gifts');
+checkBaggage('Clothes, Wine, and Machine guns');
+checkBaggage('Snacks and gun for protection');
+
+//Split Method
+
+console.log('A+very+nice+string'.split('+'));
+console.log('Senit Lutgen'.split(' '));
+
+//Splits into separate arrays
+const [firstName, lastName] = 'Senit Lutgen'.split(' ');
+
+//Join Method - the opposite of split()
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName);
+
+const newName1 = ['Mr.', firstName, lastName.toUpperCase()].join('++++');
+console.log(newName1);
+
+//Function to capitalize names (i.e. Title Case)
+const capitalizeName = function (name) {
+  const changeNameCase = name.toLowerCase().split(' ');
+  const namesUpper = [];
+  const namesUpper2 = [];
+  for (const n of changeNameCase) {
+    namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    //alt way
+    namesUpper2.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  //without the join
+  console.log(namesUpper, 'Without the join they are in arrays');
+  console.log(namesUpper.join(' '));
+
+  console.log('Using the alt way with replace... ', namesUpper2.join(' '));
+};
+
+const passenger12 = 'jessica ann smith davis';
+
+capitalizeName(passenger12);
+capitalizeName('senit lutgen');
+capitalizeName('jessica ann smith davis');
+
+//Padding a string
+const message = 'Go to gate 23.';
+console.log(message.padStart(25, '+'));
+console.log(message.padStart(100, '+'));
+console.log(message.padEnd(100, '-+-'));
+
+//Masking - generally we can only see the last four numbers - using padStart()
+const maskCreditCard = function (number) {
+  const str = number + ''; //this works becasue it converts to a string if one operand is a string.
+  //   const formalStr = String(number);
+  const lastFour = str.slice(-4);
+  return lastFour.padStart(str.length, '*');
+};
+
+console.log(maskCreditCard(1231231));
+console.log(maskCreditCard(12312569234889234));
+console.log(maskCreditCard('2342342354235235234523542352352'));
+
+//Repeat()
+const repeatingMessage = '⛈ Bad weather... All Departures Delayed...\n';
+console.log(repeatingMessage.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${' ✈ '.repeat(n)}`); //had to make the emoji a string with ' '.
+};
+
+planesInLine(5);
+planesInLine(25);
+
+const stringObj = new String('Hello foo');
+console.log(typeof stringObj, stringObj);
+
+const regOldStr = 'Hello foo';
+console.log(typeof regOldStr, regOldStr);
