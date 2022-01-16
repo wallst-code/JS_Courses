@@ -55,3 +55,72 @@ const createBooking = function (flightNum, numPassengers = 1, price = 199) {
 
 // //But the passport has been changed and is now the wrong passport number.
 // checkIn(flight, jonas);
+
+//Functions that accept callback functions
+// the / / flag replaces the ' ' and the g flag means global - it takes out all spaces and replaces with an empty string.
+const oneWord = function (str) {
+  return str.replace(/ /g, '').toLowerCase();
+};
+
+const upperFirstWords = function (str) {
+  const [first, ...others] = str.split(' ');
+  return [first.toUpperCase(), ...others].join(' ');
+};
+
+//since this takes in a funciton as a parameter - this is a higher order function.
+const transformer = function (str, fn) {
+  console.log(`Original String: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`);
+
+  console.log(`Transformed by: ${fn.name}`);
+};
+
+//The second parameter here is the callback function.
+transformer('JavaScript is the best!', upperFirstWords);
+transformer('JavaScript is the best!', oneWord);
+
+// JS uses callbacks all the time.
+const high5 = function () {
+  console.log('👋');
+};
+
+document.body.addEventListener('click', high5);
+
+['Jonas', 'Martha', 'Adam'].forEach(high5);
+
+// //Functions returning functions
+// const greet = function (greeting) {
+//   return function (name) {
+//     console.log(`${greeting} ${name} regular function\n\n`);
+//   };
+// };
+
+// //My challenge to do the arrow function.
+// const greet1 = greeting => {
+//   return name => console.log(`${greeting} ${name} my first arrow function\n\n`);
+// };
+
+// //Simplified Solution Arrow Function - one line.
+// //Arrow function returning an arrow function.
+// const greetArr = greeting => name =>
+//   console.log(`${greeting} ${name} with the arrow function\n\n`);
+
+// const greeterHey = greet('Hey');
+// greeterHey('Jonas****');
+// greeterHey('Senit');
+
+// const greetNew = greet1('Hello');
+// greetNew('Senit');
+// greetNew('Jonas');
+
+// const greetNew2 = greetArr('Hello');
+// greetNew2('Senit');
+// greetNew2('Jonas');
+
+// /*Passing parameters to function that returns a function...the first(param)
+// is the higher function param, and the second (param) is the inner function*/
+// greet('Hello')('Senit');
+// greet("How Y'all do'n")('*****Senit****\n');
+
+// greet1('Hello')('Senit');
+// greetArr('Hello')('Senit');
