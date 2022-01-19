@@ -195,6 +195,7 @@ console.log(eurowings);
 // bookEW(23, 'Steven Williams');
 
 //We can then create one booking function and bind it to all the various airlines.
+// With the bind() the first argument is the "this" keyword or what you set this to be. Below we set to objects.
 const bookLH = book.bind(lufthansa);
 const bookEW = book.bind(eurowings);
 const bookLX = book.bind(swiss);
@@ -205,3 +206,54 @@ const bookEW23 = book.bind(eurowings, 23);
 bookEW23('Jonas Schmedtmann');
 bookEW23('Martha Cooper');
 console.log(eurowings);
+
+/* With Event Listeners
+ */
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  this.planes++;
+  console.log(this.planes);
+};
+
+/* Remember with an Event Handler or Listener the "this" keyword always points ot the element.
+Here the handler function or event listener is attached to the button element. This is because 
+the this keyword is dynmaically set outside of the function. 
+ */
+// lufthansa.buyPlane();
+
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+
+/* To deal with this dynamic setting of this, we need to manually set the this keyword.
+  We do not wnat to use the call() becuae that will call the method right away. 
+  So we use the bind(). Bind() will use make a new function.
+  */
+
+// Partial Application - another use for the bind()
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+// Here we bind the values to the addTax method (we set the this to null in this case)
+//Order of arguments matters.
+const addVAT = addTax.bind(null, 0.23);
+// addVAT = value => value + value * 0.23;
+console.log(addVAT(2000));
+//2460
+console.log(addVAT(100));
+//123
+
+//Coding Challenge - return a function from another to return what the addVAT does.
+const addTaxRate = function (rate) {
+  return function (value) {
+    return rate * value + value;
+  };
+};
+
+const addVAT2 = addTaxRate(0.23);
+console.log(addVAT2(100));
+console.log(addVAT2(23));
+
+/* CODING CHALLENGE #1
+
+ */
