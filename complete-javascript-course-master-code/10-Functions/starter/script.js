@@ -58,35 +58,35 @@ const createBooking = function (flightNum, numPassengers = 1, price = 199) {
 
 //Functions that accept callback functions
 // the / / flag replaces the ' ' and the g flag means global - it takes out all spaces and replaces with an empty string.
-const oneWord = function (str) {
-  return str.replace(/ /g, '').toLowerCase();
-};
+// const oneWord = function (str) {
+//   return str.replace(/ /g, '').toLowerCase();
+// };
 
-const upperFirstWords = function (str) {
-  const [first, ...others] = str.split(' ');
-  return [first.toUpperCase(), ...others].join(' ');
-};
+// const upperFirstWords = function (str) {
+//   const [first, ...others] = str.split(' ');
+//   return [first.toUpperCase(), ...others].join(' ');
+// };
 
-//since this takes in a funciton as a parameter - this is a higher order function.
-const transformer = function (str, fn) {
-  console.log(`Original String: ${str}`);
-  console.log(`Transformed string: ${fn(str)}`);
+// //since this takes in a funciton as a parameter - this is a higher order function.
+// const transformer = function (str, fn) {
+//   console.log(`Original String: ${str}`);
+//   console.log(`Transformed string: ${fn(str)}`);
 
-  console.log(`Transformed by: ${fn.name}`);
-};
+//   console.log(`Transformed by: ${fn.name}`);
+// };
 
-//The second parameter here is the callback function.
-transformer('JavaScript is the best!', upperFirstWords);
-transformer('JavaScript is the best!', oneWord);
+// //The second parameter here is the callback function.
+// transformer('JavaScript is the best!', upperFirstWords);
+// transformer('JavaScript is the best!', oneWord);
 
-// JS uses callbacks all the time.
-const high5 = function () {
-  console.log('👋');
-};
+// // JS uses callbacks all the time.
+// const high5 = function () {
+//   console.log('👋');
+// };
 
-document.body.addEventListener('click', high5);
+// document.body.addEventListener('click', high5);
 
-['Jonas', 'Martha', 'Adam'].forEach(high5);
+// ['Jonas', 'Martha', 'Adam'].forEach(high5);
 
 // //Functions returning functions
 // const greet = function (greeting) {
@@ -124,3 +124,84 @@ document.body.addEventListener('click', high5);
 
 // greet1('Hello')('Senit');
 // greetArr('Hello')('Senit');
+/* Setting the this keyword with the call and apply methods:  
+
+CALL Method
+*/
+const lufthansa = {
+  airline: 'Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode}`
+    );
+    this.bookings.push({ flight: `${this.iataCode}  ${flightNum}`, name });
+  },
+};
+lufthansa.book(239, 'Jonas');
+lufthansa.book(222, 'John Smith');
+
+console.log(lufthansa);
+
+const eurowings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+// If we do this, we are storing into a new variable -- we
+// turned our method into a regular function and we lose the power of using this inside of the object.
+//So we use the call method below. book became a regular function call and thus the this keyword will point to undefined.
+const book = lufthansa.book;
+
+// book(23, 'Sarah Williams'); Does not work because it is now a regular function not a method.
+
+//Call, Apply and Bind for setting this.
+//Here we use the call function to call book and set the "this" to eurowings. Then pass in the regular arguments.
+book.call(eurowings, 23, 'Sarah Williams');
+book.call(eurowings, 25, 'Debbie Williams');
+console.log(eurowings);
+
+//The first argument of the call method - manually sets the this keywrod of any function we want to call.
+//The next arguments are the original arguments of the function.
+book.call(lufthansa, 239, 'Billy Bob');
+console.log(lufthansa);
+
+const swiss = {
+  airline: 'Swiss Air Lines',
+  iataCode: 'LX',
+  bookings: [],
+};
+
+book.call(swiss, 583, 'Barbra Johnson');
+console.log(swiss);
+
+/* APPLY Method - does not take a list of arguments - 
+it takes an array of arguments instead, but it is just like call.
+
+NOT USED AS MUCH IN MODERN - because we can now use the spread operator
+*/
+const flightData = [583, 'George Cooper'];
+book.apply(swiss, flightData);
+console.log(swiss);
+
+//No need to use apply method with modern JS - just use the spread operator
+book.call(eurowings, ...flightData);
+console.log(eurowings);
+
+//BIND Method - this returns a new function with the this keyword set to the function.
+// const bookEW = book.bind(eurowings);
+// bookEW(23, 'Steven Williams');
+
+//We can then create one booking function and bind it to all the various airlines.
+const bookLH = book.bind(lufthansa);
+const bookEW = book.bind(eurowings);
+const bookLX = book.bind(swiss);
+
+bookLX(67, 'Joe Bob');
+
+const bookEW23 = book.bind(eurowings, 23);
+bookEW23('Jonas Schmedtmann');
+bookEW23('Martha Cooper');
+console.log(eurowings);
