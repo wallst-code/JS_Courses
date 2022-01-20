@@ -257,3 +257,58 @@ console.log(addVAT2(23));
 /* CODING CHALLENGE #1
 
  */
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C#'],
+  answers: new Array(4).fill(0),
+  newtestCode() {
+    console.log('New Test Code Triggered');
+  },
+  askQuestion() {
+    let answer = Number(
+      prompt(
+        `${this.question} \n ${this.options.join('\n')}\n (Enter answer here: )`
+      )
+    );
+    this.registerNewAnswer(answer);
+    console.log('asking here', answer);
+  },
+  registerNewAnswer(answer) {
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++;
+
+    this.displayResults();
+    this.displayResults('string');
+    console.log('registering here');
+  },
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log('array results', this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+  },
+  getAnswers() {
+    console.log('Get method triggered');
+    return this.answers;
+  },
+};
+
+// const pagePoll = document.querySelector('#poll');
+const pollElement = document.getElementById('poll');
+pollElement.addEventListener('click', poll.askQuestion.bind(poll));
+
+function testCode(e) {
+  console.log('Test Code Triggered');
+}
+
+let results = poll.getAnswers();
+const displayOutput = document.createElement('p');
+displayOutput.textContent = results;
+document.body.appendChild(displayOutput);
+
+console.log(poll);
+
+console.log(results);
+console.log(document.body.childNodes);
