@@ -31,24 +31,75 @@ We can do this for an arrow function as well.
 /* Closures - many students struggle to understand this and they are important. 
 Closures bring the concepts of scope chaings, execution stacks, call stacks together.  ⭐ Closures are not explicitly used like we would when we create a new array or function. A closure happens automatically in certain situations but we need to recognize how and when.  */
 
-const secureBooking = function () {
-  let passengerCount = 0;
+// const secureBooking = function () {
+//   let passengerCount = 0;
 
-  return function () {
-    passengerCount++; //we update the parent variable.
-    console.log(`${passengerCount} passengers`);
-  };
-};
+//   return function () {
+//     passengerCount++; //we update the parent variable.
+//     console.log(`${passengerCount} passengers`);
+//   };
+// };
 
-const booker = secureBooking();
-// Why do the booker() calls below still access secureBooking(), since it has
-// run and is off of the call stack? This is because of closures. A closure makes a function remember all of the variables at the functions birthplace. This cannot be explained with the scope chain alone. Basically closure allows the inner function in secureBooking() to remember its variables -- he says that this inner funciton is essentially booker() - and that is not clear to me yet.
+// const booker = secureBooking();
+// // Why do the booker() calls below still access secureBooking(), since it has
+// // run and is off of the call stack? This is because of closures. A closure makes a function remember all of the variables at the functions birthplace. This cannot be explained with the scope chain alone. Basically closure allows the inner function in secureBooking() to remember its variables -- he says that this inner funciton is essentially booker() - and that is not clear to me yet.
 
-booker();
-booker();
-booker();
+// booker();
+// booker();
+// booker();
 
 //Looking into the closure backpack.
-console.dir(booker);
+// console.dir(booker);
 
 //More Closure Examples. This is a feature that is used frequently in JS.
+
+// let f;
+// const g = function () {
+//   const a = 23;
+//   f = function () {
+//     console.log(a * 2);
+//   };
+// };
+// g();
+// f();
+// //f was born in the global but then was assigned a function value and now it can still access g through closure. The "a" variable is inside the backpack.
+// console.dir(f);
+
+// const h = function () {
+//   const b = 777;
+//   f = function () {
+//     console.log(b * 2);
+//   };
+// };
+
+// // Here f has been reassigned to h
+// h();
+// f();
+// console.dir(f);
+
+// Here we note that the old closure disappears.
+
+//Example 2
+// const boardPassengers = function (n, wait) {
+//   const perGroup = n / 3;
+//   setTimeout(function () {
+//     console.log(`We are now boarding all ${n} passengers`);
+//     console.log(`There are 3 groups, each with ${perGroup} passengers`);
+//   }, wait * 1000);
+
+//   console.log(`Will start boarding in ${wait} seconds.`);
+// };
+
+// const perGroup = 1000; //this shows that closure has priority over the scope chain - because this global variable is in the global scope chain.
+// boardPassengers(180, 3);
+
+//Coding challenge #2 - really more a thinking challenge.
+// const changeHeader = change =>
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+  document.querySelector('body').addEventListener('click', function () {
+    header.style.color = 'blue';
+  });
+})();
+//end
