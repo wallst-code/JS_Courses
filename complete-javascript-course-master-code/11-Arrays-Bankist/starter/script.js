@@ -33,8 +33,6 @@ const account4 = {
   pin: 4444,
 };
 
-const accounts = [account1, account2, account3, account4];
-
 // Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
@@ -61,6 +59,7 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+//Display the movements or activity in the account.
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
 
@@ -80,6 +79,30 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+
+//Display balance on page
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((accum, mov) => accum + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+
+calcDisplayBalance(account1.movements);
+
+//Compute User Names
+const accounts = [account1, account2, account3, account4];
+
+const createUserNames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUserNames(accounts);
+console.log(accounts);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -260,3 +283,93 @@ displayMovements(account1.movements);
 //A set does not have keys or indexes - so it only has values.
 //But the same signature is used to avoid confusion between using on sets and maps.
 //NOTE - in JS the "_" in the parameter is just a throw away - place holder.
+
+////////////////// 3 Data Transformation Methods: MAP FILTER REDUCE //////////////////
+/* 
+
+Map creates a new array that is based upon the original array. Maps to a new array.
+
+Filter - iterates the array to find elements that pass a condition and makes a new array based upon the filtered data. All other elements are filtered out and not in the new array. 
+
+Reduce - reduces or boils all the array elements down to one single value (adding together). You need an accumulator and the element. The snowball effect. Get bigger when you roll it. No new array in this case. 
+
+*/
+//MAP
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const euroToUSD = 1.1;
+
+// const movementsUSD = movements.map(function (mov) {
+//   return mov * euroToUSD;
+// });
+
+// console.log(movements);
+// console.log(movementsUSD);
+
+// const movementsUSDArrow = movements.map(mov => mov * euroToUSD);
+// console.log('map() with arrow function ', movementsUSDArrow);
+
+// const movementsUSDFor = [];
+// for (const mov of movements) {
+//   movementsUSDFor.push(mov * euroToUSD);
+// }
+// console.log(movementsUSDFor);
+
+// const movementsDescriptions = movements.map(
+//   (mov, i, arr) =>
+//     `Movement ${i + 1}: You ${mov > 0 ? 'deposited ' : 'withdrew '} ${Math.abs(
+//       mov
+//     )}`
+// );
+
+// console.log(movementsDescriptions);
+
+// //////////////// Filter Method ////////////////////////////////////////
+// // Filter methods look for and satisfy for certain conditions;
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// //Make an array of deposits
+// const deposits = movements.filter(function (mov) {
+//   return mov > 0; //boolean - only true will make it into the deposits array
+// });
+
+// console.log(movements, 'the original array of movements');
+// console.log(
+//   deposits,
+//   'Here we separate out all the withdrawals and make an array of deposits'
+// );
+
+// const depositsFor = [];
+// for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+// console.log(depositsFor, 'Using a for of loop');
+
+// //challenge make a withdrawals array
+
+// const withdrawals = movements.filter(mov => mov < 0);
+// console.log(withdrawals, 'Withdrawls array');
+
+// //////////////// Reduce Method ///////////////////////////////////////
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// console.log(movements);
+
+// // reduce parameters = accumulator - the snowball, the element -- current element, index, array ----- at the very end note that there is another parameter - it sets the starting value for the accumulator -- here it is 0.
+// const balance = movements.reduce(function (accum, cur, i, array) {
+//   console.log(`Iteriation ${i}: $${accum}`);
+//   return accum + cur;
+// }, 0);
+
+// console.log(balance);
+
+// // for loop example with reduce method vs for loop
+// let sumBal = 0;
+// for (const mov of movements) sumBal += mov;
+// console.log('sumBal with for loop', sumBal);
+
+// // Reduce method with an arrow function
+// const balance2 = movements.reduce((accum, cur) => accum + cur, 0);
+// console.log('with arrow funciton and reduce ', balance2);
+
+//Maximum value of the movements array
+// const maxValue = movements.reduce((acc, cur) => (acc > cur ? acc : cur), 0);
+// console.log(maxValue);
