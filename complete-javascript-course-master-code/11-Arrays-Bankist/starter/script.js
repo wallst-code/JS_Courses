@@ -71,7 +71,7 @@ const displayMovements = function (movements) {
           <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-          <div class="movements__value">${mov}</div>
+          <div class="movements__value">${mov}€</div>
         </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -79,18 +79,41 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+const accounts = [account1, account2, account3, account4];
 
 //Display balance on page
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((accum, mov) => accum + mov, 0);
-  labelBalance.textContent = `${balance} EUR`;
+  labelBalance.textContent = `${balance}€`;
 };
 
 calcDisplayBalance(account1.movements);
 
-//Compute User Names
-const accounts = [account1, account2, account3, account4];
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
 
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter((interest, i, array) => {
+      console.log(array);
+      return interest >= 1;
+    })
+    .reduce((acc, interest) => acc + interest, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+
+calcDisplaySummary(account1.movements);
+
+//Compute User Names
 const createUserNames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -102,7 +125,6 @@ const createUserNames = function (accs) {
 };
 
 createUserNames(accounts);
-console.log(accounts);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -373,3 +395,33 @@ Reduce - reduces or boils all the array elements down to one single value (addin
 //Maximum value of the movements array
 // const maxValue = movements.reduce((acc, cur) => (acc > cur ? acc : cur), 0);
 // console.log(maxValue);
+
+//////////////////// Chaining Methods ////////////////////////////
+// const eurToUSD = 1.1;
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const totalDepositsUSD = movements
+//   .filter(mov => mov > 0)
+//   .map(mov => mov * eurToUSD)
+//   .reduce((acc, mov) => acc + mov, 0); // You could not chain after reduce because it is a value - not an array. Think of it like a pipeline.
+
+// // Performed 3 data transformation in one chain.
+// // You can keep chaining as long as they return new arrays.
+// // Chaining can make it harder to debug - the pipeline.
+
+// console.log(totalDepositsUSD);
+// console.log(Math.trunc(totalDepositsUSD));
+
+/////////////////////// FIND METHOD /////////////////////////
+// Needs a boolean condition like filter, but it does not return a new array
+// It will return a value when or if it finds the first condition that is true.
+// Unlike filter, the find() only returns the first condition that triggers true.
+// The find() is usually set up to just find one element or condition.
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(movements);
+console.log(`This is the first withdrawal amount: $${firstWithdrawal}`);
+
+console.log(accounts);
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
