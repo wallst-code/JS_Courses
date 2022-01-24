@@ -59,6 +59,39 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+// Login
+//Event Handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault(); //prevent form from resubmitting na reloading
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    console.log('✔ LOGIN SUCCESS');
+    //display UI and welcome message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    //set .app opacity to 100%.
+    containerApp.style.opacity = 100;
+    // clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    //removes cursor
+    inputLoginPin.blur();
+    //display balance
+    calcDisplayBalance(currentAccount.movements);
+    // display movements
+    displayMovements(currentAccount.movements);
+    // display summary
+    calcDisplaySummary(currentAccount);
+  } else {
+    console.log('🛑 Login Failure');
+  }
+});
+
 //Display the movements or activity in the account.
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
@@ -78,7 +111,6 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
 const accounts = [account1, account2, account3, account4];
 
 //Display balance on page
@@ -87,31 +119,26 @@ const calcDisplayBalance = function (movements) {
   labelBalance.textContent = `${balance}€`;
 };
 
-calcDisplayBalance(account1.movements);
-
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;
 
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * acc.interestRate) / 100)
     .filter((interest, i, array) => {
-      console.log(array);
       return interest >= 1;
     })
     .reduce((acc, interest) => acc + interest, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
-
-calcDisplaySummary(account1.movements);
 
 //Compute User Names
 const createUserNames = function (accs) {
@@ -417,11 +444,11 @@ Reduce - reduces or boils all the array elements down to one single value (addin
 // It will return a value when or if it finds the first condition that is true.
 // Unlike filter, the find() only returns the first condition that triggers true.
 // The find() is usually set up to just find one element or condition.
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const firstWithdrawal = movements.find(mov => mov < 0);
-console.log(movements);
-console.log(`This is the first withdrawal amount: $${firstWithdrawal}`);
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const firstWithdrawal = movements.find(mov => mov < 0);
+// console.log(movements);
+// console.log(`This is the first withdrawal amount: $${firstWithdrawal}`);
 
-console.log(accounts);
-const account = accounts.find(acc => acc.owner === 'Jessica Davis');
-console.log(account);
+// console.log(accounts);
+// const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+// console.log(account);
