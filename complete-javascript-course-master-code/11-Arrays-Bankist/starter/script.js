@@ -33,6 +33,9 @@ const account4 = {
   pin: 4444,
 };
 
+const accounts = [account1, account2, account3, account4];
+let currentAccount;
+
 // Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
@@ -59,9 +62,21 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+//Compute User Names
+const createUserNames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUserNames(accounts);
+
 // Login
 //Event Handler
-let currentAccount;
 
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault(); //prevent form from resubmitting na reloading
@@ -81,12 +96,9 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginUsername.value = inputLoginPin.value = '';
     //removes cursor
     inputLoginPin.blur();
-    //display balance
-    calcDisplayBalance(currentAccount.movements);
-    // display movements
-    displayMovements(currentAccount.movements);
-    // display summary
-    calcDisplaySummary(currentAccount);
+
+    // Update UI
+    updateUI(currentAccount);
   } else {
     console.log('🛑 Login Failure');
   }
@@ -111,12 +123,10 @@ const displayMovements = function (movements) {
   });
 };
 
-const accounts = [account1, account2, account3, account4];
-
 //Display balance on page
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((accum, mov) => accum + mov, 0);
-  labelBalance.textContent = `${balance}€`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((accum, mov) => accum + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 
 const calcDisplaySummary = function (acc) {
@@ -140,18 +150,39 @@ const calcDisplaySummary = function (acc) {
   labelSumInterest.textContent = `${interest}€`;
 };
 
-//Compute User Names
-const createUserNames = function (accs) {
-  accs.forEach(function (acc) {
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(' ')
-      .map(name => name[0])
-      .join('');
-  });
+const updateUI = function (currentAccount) {
+  //display balance
+  calcDisplayBalance(currentAccount);
+  // display movements
+  displayMovements(currentAccount.movements);
+  // display summary
+  calcDisplaySummary(currentAccount);
 };
 
-createUserNames(accounts);
+//Add Transfer Functioning
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    receiverAcc.movements.push(amount);
+    currentAccount.movements.push(-amount);
+    updateUI(currentAccount);
+  } else {
+    alert('Invalid tranfer');
+    console.log('Invalid tranfer');
+  }
+  console.log(amount, receiverAcc);
+  console.log(currentAccount.movements);
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
