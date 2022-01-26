@@ -104,6 +104,33 @@ btnLogin.addEventListener('click', function (e) {
   }
 });
 
+//////////////////////////// FIND INDEX METHOD ///////////////////////////
+////// Event Handler - Close Account Implementation
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    currentAccount?.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    inputCloseUsername.value = inputClosePin.value = '';
+
+    // Delete Account
+    accounts.splice(index, 1); // mutates so no need to save.
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+    console.log(`${currentAccount.username}'s account is now closed!`);
+
+    // reload page to remove user name
+    location.reload();
+  }
+});
+
 //Display the movements or activity in the account.
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
