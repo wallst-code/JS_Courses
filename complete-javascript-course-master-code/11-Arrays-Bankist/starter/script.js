@@ -104,6 +104,23 @@ btnLogin.addEventListener('click', function (e) {
   }
 });
 
+////// some() --- implement the loan funcitonality //////////////////////////////
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    console.log(`Loan Approved for ${amount}`);
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+  } else {
+    console.log(`Your loan for ${amount} was not approved.`);
+    alert(`Your loan for $${amount} was not approved.`);
+  }
+  inputLoanAmount.value = '';
+});
+
 //////////////////////////// FIND INDEX METHOD ///////////////////////////
 ////// Event Handler - Close Account Implementation
 
@@ -511,3 +528,114 @@ Reduce - reduces or boils all the array elements down to one single value (addin
 // console.log(accounts);
 // const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 // console.log(account);
+
+// Includes()
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// console.log(movements);
+// console.log(movements.includes(-130));
+
+// Includes returns true if any value is equal to -130.
+// But what if we want to test for a condition instead?
+
+////////////////// Some() method /////////////////
+
+// const anyDeposits = movements.some(mov => mov > 5000);
+// console.log(anyDeposits);
+
+/////////////////////// every() ////////////////////
+// EVERY - only returns true if all of the elements in the array pass the condition.
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// console.log(movements.every(mov => mov > 0));
+// // false - so all of the movements are not deposits.
+// console.log(account4.movements.every(mov => mov > 0));
+// // true - all movements are positive - thus > 0 and are deposits
+
+// // Separate callback
+// const deposit = mov => mov > 0;
+// const withdrawals = mov => mov < 0;
+
+// console.log(movements.some(deposit), 'using a separate function callback');
+// console.log(movements.every(deposit), 'using a separate function callback');
+
+// console.log(movements.filter(deposit));
+
+///////////////// FLAT
+// compresses  or flattens all the values into one array from separate sub arrays.
+// we call this flattening the array.
+// const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+// console.log(arr.flat());
+
+// const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+// console.log(arrDeep.flat(2));
+
+//Example bank wants to count all the movements of all accounts
+// the movements are stored inside of arrays in the accounts objects.
+// We need to take them out and put them all into one array.
+
+// const accountMovements = accounts.map(acc => acc.movements);
+// console.log(accountMovements);
+
+// const allMovements = accountMovements.flat();
+// console.log(allMovements);
+
+// const overallBalance = allMovements.reduce((acc, cur) => acc + cur, 0);
+// console.log(overallBalance);
+
+// refactored using method chaining
+// const overallBalance = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .reduce((acc, cur) => acc + cur, 0);
+// console.log(overallBalance);
+
+// // flatMap() ///////
+// const overallBalance2 = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((acc, cur) => acc + cur, 0);
+// console.log(overallBalance2, 'With flatMap()');
+
+//////////////////// Sorting //////////////////////
+// the builtin sort() mutates the original array.
+
+const owners = ['Jonas', 'Zack', 'Adam', 'Martha'];
+console.log(owners, 'unsorted array');
+console.log(owners.sort(), 'sorted array');
+
+//the array has been mutated from the sort()
+console.log(owners, 'sorted array is now mutated');
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+console.log(movements, 'original array');
+
+// return < 0, A before B (keep order same)
+// return > 0, B before A (switch order)
+// this sort() loops over the array and puts it in ascending order
+movements.sort((a, b) => {
+  if (a > b) return 1;
+  if (b > a) return -1;
+});
+console.log(movements, 'ascending order');
+
+const movements2 = [200, 450, -400, 3000, -650, -130, 70, 1300];
+console.log(movements2, 'original array');
+
+// descending order
+movements2.sort((a, b) => {
+  if (a < b) return 1;
+  if (b < a) return -1;
+});
+console.log(movements2, 'descending order');
+
+// ascending with strings in an array
+owners.sort((a, b) => {
+  if (a > b) return 1;
+  if (b > a) return -1;
+});
+console.log(owners);
+
+// descending with strings in an array
+owners.sort((a, b) => {
+  if (a < b) return 1;
+  if (b < a) return -1;
+});
+console.log(owners);
