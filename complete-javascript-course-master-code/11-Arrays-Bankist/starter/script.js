@@ -666,3 +666,40 @@ Reduce - reduces or boils all the array elements down to one single value (addin
 // and there are other ways to do that.
 
 //////////////// Creating and Filling Arrays /////////////////////
+
+// Creates an array with 7 empty elements
+const x = new Array(7);
+console.log(x);
+
+//The only method that can be used on this way is the fill()
+// FILL - mutates the array
+
+x.fill(1);
+console.log(x);
+
+const y = new Array(7);
+console.log(y);
+
+y.fill(1, 3, 5); //(filler, beg index, end index not inclusive)
+console.log(y);
+
+// Array.from()
+const z = Array.from({ length: 7 }, () => 1);
+console.log(z);
+
+const z1 = Array.from({ length: 7 }, (cur, i) => i + 1);
+console.log(z1);
+
+// Designed to create arrays from iterable array like structures...
+// We can create arrays from other things...
+// A node list is an array like structure (map()) will not work on a node list.
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value')
+  );
+  console.log(movementsUI);
+
+  const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+  console.log(movementsUI2);
+});
