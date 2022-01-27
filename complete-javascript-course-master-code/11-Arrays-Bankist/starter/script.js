@@ -149,10 +149,12 @@ btnClose.addEventListener('click', function (e) {
 });
 
 //Display the movements or activity in the account.
-const displayMovements = function (movements) {
+//Later we added a 2nd parameter sort and set a default of false
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
 
-  movements.forEach(function (mov, i) {
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -166,6 +168,16 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
+
+// state variable for the sort listener - we will use the !sorted to do the opposite of
+// the state variable for sorting...
+let sorted = false;
+// Event Listener for Sorting Movements Display
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted; //resets the sorted variable
+});
 
 //Display balance on page
 const calcDisplayBalance = function (acc) {
@@ -228,6 +240,9 @@ btnTransfer.addEventListener('click', function (e) {
   console.log(amount, receiverAcc);
   console.log(currentAccount.movements);
 });
+
+// Implement Sorting Functionality
+// We do not want to mutate the original array so we make a copy
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -597,45 +612,57 @@ Reduce - reduces or boils all the array elements down to one single value (addin
 //////////////////// Sorting //////////////////////
 // the builtin sort() mutates the original array.
 
-const owners = ['Jonas', 'Zack', 'Adam', 'Martha'];
-console.log(owners, 'unsorted array');
-console.log(owners.sort(), 'sorted array');
+// const owners = ['Jonas', 'Zack', 'Adam', 'Martha'];
+// console.log(owners, 'unsorted array');
+// console.log(owners.sort(), 'sorted array');
 
-//the array has been mutated from the sort()
-console.log(owners, 'sorted array is now mutated');
+// //the array has been mutated from the sort()
+// console.log(owners, 'sorted array is now mutated');
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-console.log(movements, 'original array');
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// console.log(movements, 'original array');
 
-// return < 0, A before B (keep order same)
-// return > 0, B before A (switch order)
-// this sort() loops over the array and puts it in ascending order
-movements.sort((a, b) => {
-  if (a > b) return 1;
-  if (b > a) return -1;
-});
-console.log(movements, 'ascending order');
+// // return < 0, A before B (keep order same)
+// // return > 0, B before A (switch order)
+// // this sort() loops over the array and puts it in ascending order
+// movements.sort((a, b) => {
+//   if (a > b) return 1;
+//   if (b > a) return -1;
+// });
+// console.log(movements, 'ascending order');
 
-const movements2 = [200, 450, -400, 3000, -650, -130, 70, 1300];
-console.log(movements2, 'original array');
+// const movements2 = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// console.log(movements2, 'original array');
 
-// descending order
-movements2.sort((a, b) => {
-  if (a < b) return 1;
-  if (b < a) return -1;
-});
-console.log(movements2, 'descending order');
+// // descending order
+// movements2.sort((a, b) => {
+//   if (a < b) return 1;
+//   if (b < a) return -1;
+// });
+// console.log(movements2, 'descending order');
 
-// ascending with strings in an array
-owners.sort((a, b) => {
-  if (a > b) return 1;
-  if (b > a) return -1;
-});
-console.log(owners);
+// // ascending with strings in an array
+// owners.sort((a, b) => {
+//   if (a > b) return 1;
+//   if (b > a) return -1;
+// });
+// console.log(owners);
 
-// descending with strings in an array
-owners.sort((a, b) => {
-  if (a < b) return 1;
-  if (b < a) return -1;
-});
-console.log(owners);
+// // descending with strings in an array
+// owners.sort((a, b) => {
+//   if (a < b) return 1;
+//   if (b < a) return -1;
+// });
+// console.log(owners);
+
+// // refactor to simplify
+// const theseMoves = movements.sort((a, b) => a - b);
+// console.log(theseMoves);
+
+// const theseMoves2 = movements.sort((a, b) => b - a);
+// console.log(theseMoves2);
+
+// Mixed arrays with numbers and strings - the sort() will not work
+// and there are other ways to do that.
+
+//////////////// Creating and Filling Arrays /////////////////////
