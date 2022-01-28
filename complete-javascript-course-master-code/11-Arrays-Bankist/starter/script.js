@@ -668,38 +668,89 @@ Reduce - reduces or boils all the array elements down to one single value (addin
 //////////////// Creating and Filling Arrays /////////////////////
 
 // Creates an array with 7 empty elements
-const x = new Array(7);
-console.log(x);
+// const x = new Array(7);
+// console.log(x);
 
-//The only method that can be used on this way is the fill()
-// FILL - mutates the array
+// //The only method that can be used on this way is the fill()
+// // FILL - mutates the array
 
-x.fill(1);
-console.log(x);
+// x.fill(1);
+// console.log(x);
 
-const y = new Array(7);
-console.log(y);
+// const y = new Array(7);
+// console.log(y);
 
-y.fill(1, 3, 5); //(filler, beg index, end index not inclusive)
-console.log(y);
+// y.fill(1, 3, 5); //(filler, beg index, end index not inclusive)
+// console.log(y);
 
-// Array.from()
-const z = Array.from({ length: 7 }, () => 1);
-console.log(z);
+// // Array.from()
+// const z = Array.from({ length: 7 }, () => 1);
+// console.log(z);
 
-const z1 = Array.from({ length: 7 }, (cur, i) => i + 1);
-console.log(z1);
+// const z1 = Array.from({ length: 7 }, (cur, i) => i + 1);
+// console.log(z1);
 
-// Designed to create arrays from iterable array like structures...
-// We can create arrays from other things...
-// A node list is an array like structure (map()) will not work on a node list.
+// // Designed to create arrays from iterable array like structures...
+// // We can create arrays from other things...
+// // A node list is an array like structure (map()) will not work on a node list.
 
-labelBalance.addEventListener('click', function () {
-  const movementsUI = Array.from(
-    document.querySelectorAll('.movements__value')
-  );
-  console.log(movementsUI);
+// labelBalance.addEventListener('click', function () {
+//   const movementsUI = Array.from(
+//     document.querySelectorAll('.movements__value')
+//   );
+//   console.log(movementsUI);
 
-  const movementsUI2 = [...document.querySelectorAll('.movements__value')];
-  console.log(movementsUI2);
-});
+//   const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+//   console.log(movementsUI2);
+// });
+
+//////////////////////////////////////////////
+// Array Methods Practice
+
+const bankDepositSum = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((sum, cur) => sum + cur, 0);
+
+console.log(bankDepositSum);
+
+// create an array from the arrays that are all deposits from all accounts.
+const totalBankDeposits = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0);
+
+let countDeposits = 0;
+for (const dep of totalBankDeposits) {
+  countDeposits++;
+}
+console.log(countDeposits);
+
+let countDeposits2 = 0;
+for (let i = 0; i < totalBankDeposits.length; i++) {
+  countDeposits2++;
+}
+console.log(countDeposits2);
+
+let countDeposits3 = 0;
+
+totalBankDeposits.forEach(el => countDeposits3++);
+console.log(countDeposits3);
+
+// You could use .length property, but I used the .forEach()
+let countBigDeposits = 0;
+const numDeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov >= 1000);
+// .length;
+
+numDeposits1000.forEach(el => countBigDeposits++);
+
+console.log(numDeposits1000);
+console.log(countBigDeposits);
+
+// count deposits >= 1000 using the reduce()
+// use the prefix operator on the count in the ternary operator...
+const numDeposits1000Reduce = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+console.log(numDeposits1000Reduce);
