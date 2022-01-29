@@ -754,3 +754,78 @@ const numDeposits1000Reduce = accounts
   .flatMap(acc => acc.movements)
   .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
 console.log(numDeposits1000Reduce);
+
+const sums = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+      return sums; // we always return the accumulator with {} we must manually use return.
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+console.log(sums);
+
+// Destruct sums
+// const { deposits, withdrawals } = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce(
+//     (sums, cur) => {
+//       cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+//       return sums; // we always return the accumulator with {} we must manually use return.
+//     },
+//     { deposits: 0, withdrawals: 0 }
+//   );
+// console.log(deposits, withdrawals);
+
+// Destruct sums
+const { deposits, withdrawals } = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+      return sums; // we always return the accumulator with {} we must manually use return.
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+console.log(deposits, withdrawals);
+
+//
+//Simple function to turn any string into a title case.////////////
+const covertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
+  const exceptions = [
+    'a',
+    'an',
+    'the',
+    'but',
+    'or',
+    'on',
+    'in',
+    'with',
+    'for',
+    'nor',
+    'yet',
+    'at',
+    'around',
+    'by',
+    'after',
+    'along',
+    'from',
+    'of',
+    'to',
+    'without',
+  ];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+
+  return capitalize(titleCase);
+};
+console.log(covertTitleCase('this is a nice title'));
+console.log(covertTitleCase('this is a long title but not too long'));
+console.log(covertTitleCase('another title with an example from this course'));
