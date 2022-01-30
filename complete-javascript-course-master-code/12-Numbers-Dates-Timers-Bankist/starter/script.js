@@ -182,7 +182,7 @@ btnLogin.addEventListener('click', function (e) {
 
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
   const receiverAcc = accounts.find(
     acc => acc.username === inputTransferTo.value
   );
@@ -206,7 +206,7 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = +inputLoanAmount.value;
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
@@ -223,7 +223,8 @@ btnClose.addEventListener('click', function (e) {
 
   if (
     inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
+    // Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
@@ -251,3 +252,49 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+// numbers are always seen as flotating point numbers in JS.
+console.log(23 === 23.0);
+// true
+
+// Base 10: 0-9
+// Binary 2: 0-1
+// fractions are harder to represent in JS because of this - we get an infinite fraction.
+console.log(0.1 + 0.2);
+// 0.3000000000000000000004
+
+console.log(0.1 + 0.2 === 0.3);
+// false - we just have to accept this in JS.
+
+// YOU  CANNOT DO PRECISE FINANCIAL CALCULATIONS WITH JS BECAUSE OF THIS
+
+// converts string to number
+console.log(Number('23'));
+
+// a trick that gets JS to convert to number.
+console.log(+'23');
+
+// PARSING
+// Turned the string into a number - the string must start with a number - and it will return the number from the str.
+// the 10 that is passed in helps avoid bugs becaue it tells JS that we are using base 10.
+console.log(Number.parseInt('30px', 10));
+console.log(Number.parseInt('30.5px', 10)); //must use parseFloat for this.
+console.log(Number.parseInt('e30', 10)); // this produces NaN - it must start with a number not text.
+
+// to deal with decimals and floating point numbers. ** Use this for CSS elements.
+console.log(Number.parseFloat('2.5rem'));
+
+// To check to see if the parameter is NaN returns true if it is and false if it is a number.
+console.log(Number.isNaN(20));
+console.log(Number.isNaN(+'20'));
+console.log(Number.isNaN(23 / 0));
+
+// isFinite is better for checking for zero division and whether the value is a real number vs a string.
+console.log(Number.isFinite(20));
+console.log(Number.isFinite('20'));
+console.log(Number.isFinite('20'));
+console.log(Number.isFinite(23 / 0)); //this gives us infinity that is not finite.
+console.log(Number.isFinite(20.5));
+
+// to check for a value if it is an interger. Note that the float point will fail.
+console.log(Number.isInteger(20));
+console.log(Number.isInteger(20.5));
