@@ -183,9 +183,33 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+//Timer for Logout
+const startLogOutTimer = function () {
+  let time = 300;
+  const tick = function () {
+    // In each callback call - print remaining time to UI
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(Math.trunc(time % 60)).padStart(2, 0);
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = `Session has expired, login to get started`;
+      containerApp.style.opacity = 0;
+    }
+    time--;
+  };
+
+  tick();
+  timer = setInterval(tick, 1000);
+  return timer; //this will allow us to clear it in the login for anotehr user login
+};
+
 ///////////////////////////////////////
 // Event handlers
 let currentAccount;
+let timer;
 
 //FAKE ALWAYS LOGGED IN
 currentAccount = account1;
@@ -230,7 +254,6 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
-  console.log(currentAccount);
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and message
@@ -266,12 +289,15 @@ btnLogin.addEventListener('click', function (e) {
     // const year = now.getFullYear();
     // const hours = `${now.getHours()}`.padStart(2, '0');
     // const minutes = `${now.getMinutes()}`.padStart(2, '0');
-
     // labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`;
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+
+    //Clear and reset any existing timers
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
 
     // Update UI
     updateUI(currentAccount);
@@ -300,6 +326,9 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+    // reset the timer to restart
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -319,6 +348,9 @@ btnLoan.addEventListener('click', function (e) {
     }, 2500);
   }
   inputLoanAmount.value = '';
+  // reset the timer to restart
+  clearInterval(timer);
+  timer = startLogOutTimer();
 });
 
 btnClose.addEventListener('click', function (e) {
