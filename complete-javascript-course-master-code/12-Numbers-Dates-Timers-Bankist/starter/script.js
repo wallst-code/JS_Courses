@@ -86,7 +86,6 @@ const formatMovmentDate = function (date, locale) {
     Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
 
   const daysPassed = calcDaysPassed(new Date(), date);
-  console.log(daysPassed);
 
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
@@ -311,11 +310,13 @@ btnLoan.addEventListener('click', function (e) {
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
-    currentAccount.movements.push(amount);
-    currentAccount.movementsDates.push(new Date().toISOString());
+    setTimeout(function () {
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // Update UI
-    updateUI(currentAccount);
+      // Update UI
+      updateUI(currentAccount);
+    }, 2500);
   }
   inputLoanAmount.value = '';
 });
@@ -598,3 +599,30 @@ btnSort.addEventListener('click', function (e) {
 
 /////////Timers
 //Example order a pizza and time it
+//setTimeout() gets a call back function and then the time in milliseconds
+//it delays the call of the function by the time set - in this case - 3 seconds or 3000 ms.
+
+// setTimeout(
+//   (ing1, ing2) => console.log(`Here is your pizza 🍕 with ${ing1} and ${ing2}`),
+//   3000,
+//   'Olives',
+//   'Onions'
+// );
+
+// //You can add arguments behind the time setting as above.
+
+// console.log('Waiting....'); // this will print while the setTimeout is waiting for 3 seconds.
+
+// const ingredients = ['Olives', 'Mushrooms'];
+
+// const pizzaTimer = setTimeout(
+//   (ing1, ing2) => console.log(`Here is your pizza 🍕 with ${ing1} and ${ing2}`),
+//   4000,
+//   ...ingredients
+// );
+// console.log('Waiting....');
+
+// if (ingredients.includes('Onions')) {
+//   clearTimeout(pizzaTimer);
+//   console.log('2nd 🍕 cancelled due to Onions');
+// }
