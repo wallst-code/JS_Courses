@@ -81,4 +81,42 @@ document
     message.remove();
   });
 
-///////// Styles, Attributes, and Classes
+///////// Styles, Attributes, and Classes - use the exact string
+////these are set as inline styles.
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+
+console.log(message.style.backgroundColor);
+//We can only retrieve inline styles that we have set ourselves
+//If we want to see the values in the CSS we can use getComputedStyle()
+
+console.log(getComputedStyle(message));
+console.log(getComputedStyle(message).color);
+console.log(getComputedStyle(message).height);
+
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 40 + 'px';
+
+console.log(getComputedStyle(message).height);
+// document.documentElement.style.setProperty('--color-primary', 'orangered');
+//You can set any properties this way.
+
+////// Attributes //////
+const logo = document.querySelector('.nav__logo');
+console.log(logo.alt);
+console.log(logo.src);
+console.log(logo.className);
+// You can read the standard properties that are expected with the type of element, but not ones that you add that are non-standard.
+//but you can access the non-standards by using logo.getAttribute('<attribute>')
+
+//Setting Attributes
+// logo.alt = 'Beautiful minimalist logo';
+logo.setAttribute('company', 'Bankist'); //Sets an attribute
+
+console.log(logo.src);
+console.log(logo.getAttribute('src'));
+
+//links
+const link = document.querySelector('.twitter-link');
+console.log(link.href);
+console.log(link.getAttribute('href'));
