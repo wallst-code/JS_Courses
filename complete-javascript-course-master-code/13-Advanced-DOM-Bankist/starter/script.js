@@ -69,6 +69,67 @@ btnScroll.addEventListener('click', function (e) {
   section1.scrollIntoView({ behavior: 'smooth' });
 });
 
+////////////// Event Delegation: Implementing Page Nav
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href');
+//     console.log(id);
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//   });
+// }); // but this is inefficient see below
+
+// Event delegation - important technique
+//1. Add event listener to common parent element
+//2. Determine which element originiated the event
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  //matching strategy - ignore clicks that are not relevant
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+///////////////// DOM Traversing //////////////////////
+
+// const h1 = document.querySelector('h1');
+
+// // going downwards: selecting child elements - this only grabs the direct children of the element - not of the entire document
+// console.log(h1.querySelectorAll('.highlight'));
+// console.log(h1.childNodes);
+// console.log(h1.childElementCount);
+// console.log(h1.children);
+// console.log(h1.firstElementChild);
+// console.log(h1.lastElementChild);
+// h1.firstElementChild.style.color = 'white';
+// h1.lastElementChild.style.color = 'orangered';
+
+// // going upwards: selecting parents
+// console.log(h1.parentNode);
+// console.log(h1.parentElement);
+
+// h1.closest('.header').style.background = 'var(--gradient-secondary)';
+// console.log(h1.closest('.header'));
+
+// h1.closest('h1').style.background = 'var(--gradient-primary)';
+// //.closest() is the opposite of querySelector().
+// //.querySelector() finds children regardless of depth.
+// //.closet() only finds parents.
+
+// //going sideways: selecting siblings - only direct siblings
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextElementSibling);
+
+// console.log(h1.parentElement.children);
+// [...h1.parentElement.children].forEach(function (el) {
+//   if (el !== h1) el.style.transform = 'scale(0.5)';
+// });
+
+//
 // Implementing Event Propogation on the Bankist App
 //rgb(255,255,255)
 // const randomInt = (min, max) =>
