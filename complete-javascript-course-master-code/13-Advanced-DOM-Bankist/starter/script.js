@@ -94,6 +94,8 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
   }
 });
 
+/////////////////// Tabbed Component ////////////////////////
+
 ///////////////// DOM Traversing //////////////////////
 
 // const h1 = document.querySelector('h1');
