@@ -95,6 +95,29 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 });
 
 /////////////////// Tabbed Component ////////////////////////
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// Bad Practice - creates a copy for each tab elements.
+// tabs.forEach(t => t.addEventListener('click', () => console.log('TAB')));
+// Better Practice to listen to multiple like elements: Event Delegation by using the common parent of all the target elements.
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+
+  if (!clicked) return; //A guard clause - returns early if some condition is matched.
+
+  //Clear the active tabs or content before turning the one clicked active again - resets.
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+  clicked.classList.add('operations__tab--active');
+
+  //Activate the content area
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
 
 ///////////////// DOM Traversing //////////////////////
 
