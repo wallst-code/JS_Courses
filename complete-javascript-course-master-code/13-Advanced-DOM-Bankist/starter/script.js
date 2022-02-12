@@ -119,6 +119,41 @@ tabsContainer.addEventListener('click', function (e) {
     .classList.add('operations__content--active');
 });
 
+///////// Passing Arguments into Event Handlers ///////////////////////////
+
+//1. Use event delegation for the links and the logo - find the parent elements
+// .nav
+const nav = document.querySelector('.nav');
+
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link'); //you can choose a higher up parent.
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+
+// Used bind() to pass an "argument" to our handler function.
+// If we wanted to pass more than one value, you'd need to pass in an object or array.
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+////////////// Sticky Navigation ////////////////////
+const initialCoords = section1.getBoundingClientRect();
+console.log(initialCoords);
+window.addEventListener('scroll', function () {
+  console.log('Y: ', window.scrollY, 'X: ', window.scrollX);
+  if (window.scrollY > initialCoords.top) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+});
 ///////////////// DOM Traversing //////////////////////
 
 // const h1 = document.querySelector('h1');
