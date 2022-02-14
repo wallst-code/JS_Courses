@@ -144,16 +144,59 @@ nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
 ////////////// Sticky Navigation ////////////////////
-const initialCoords = section1.getBoundingClientRect();
-console.log(initialCoords);
-window.addEventListener('scroll', function () {
-  console.log('Y: ', window.scrollY, 'X: ', window.scrollX);
-  if (window.scrollY > initialCoords.top) {
+// const initialCoords = section1.getBoundingClientRect();
+// console.log(initialCoords);
+// window.addEventListener('scroll', function () {
+//   console.log('Y: ', window.scrollY, 'X: ', window.scrollX);
+//   if (window.scrollY > initialCoords.top) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
+////////////// Sticky Navigation: Intersection Observer API ////////////////////
+// const observerCallback = function (entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+
+// const observerOptions = {
+//   root: null,
+//   threshold: [0, 0.2],
+//   // 0 sets it when out of view and moving into view.
+//   // 1 = 100% and would trigger only when 100% is in the viewport.
+// };
+
+// const observer = new IntersectionObserver(observerCallback, observerOptions);
+// observer.observe(section1);
+
+//When do we want the navigation to become sticky? Basically, when the static header/nav would be out of view.
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+console.log(navHeight);
+
+//We do not need the headerObserver {} as a parameter in this case.
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) {
     nav.classList.add('sticky');
   } else {
     nav.classList.remove('sticky');
   }
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0, //we want something to happen when 0% is visible.
+  rootMargin: `-${navHeight}px`, //90px outside of our target element. Will trigger x pixels before the trigger threshold.
 });
+
+headerObserver.observe(header);
+
 ///////////////// DOM Traversing //////////////////////
 
 // const h1 = document.querySelector('h1');
