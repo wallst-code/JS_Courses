@@ -547,3 +547,22 @@ slider();
 //you can use the HTML attribute, but you should not use it.
 
 ///////////////// Event Propogation: Bubbling and Capturing /////////////////
+
+////////////////////////////// Lifecycle DOM Events //////////////////////
+//Domcontent loaded - html is parsed and converted into the DOM Tree and all scripts have been downloaded.
+// document.addEventListener('DOMContentLoaded', function (e) {
+//   console.log('HTML parsed and DOM tree built!', e);
+// });
+
+// window.addEventListener('load', function (e) {
+//   console.log('Window Load Event', e);
+// });
+
+// // window.addEventListener('beforeunload', function (e) {
+// //   e.preventDefault();
+// //   console.log('Before unload', e);
+// //   e.returnValue = '';
+// // });
+// window.addEventListener('load', function (e) {
+//   alert('hello');
+// });
