@@ -355,7 +355,53 @@
 // console.log(BMW.speed);
 
 ////////////////////////// Inheritance Between Classes Constructor Functions /////////////////
-//
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+//build constructor funciton for student
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+//The prototype link must be set here. We must link this before setting any methods to the Student prototype.
+// Order Matters Here!
+//// LINKING PROTOTYPES
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName}, and I study ${this.course}`);
+};
+
+//create new student
+const mike = new Student('Mike', 2020, 'CS');
+console.log(mike);
+
+mike.introduce();
+mike.calcAge();
+
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__);
+
+console.dir(Student.prototype.constructor);
+
+Student.prototype.constructor = Student;
+
+console.dir(Student.prototype.constructor);
+
+console.log(mike instanceof Student);
+console.log(mike instanceof Person);
+console.log(mike instanceof Object);
+
+////// Coding Challenge #3 ///////////////
+// skipped see notes
 
 ////////////////////////// Inheritance Between Classes - ES6 Classes /////////////////
 //
