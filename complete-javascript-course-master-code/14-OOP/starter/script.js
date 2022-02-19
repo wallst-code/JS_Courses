@@ -513,17 +513,22 @@ class Account {
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
+    this._pin = pin;
     // We can add tings that have not been passed yet or even properties like navigator...
-    this.movements = [];
+    // _ makes this a protected property (not actually private).
+    this._movements = [];
     this.locale = navigator.language;
 
     console.log(`Thanks for opening an account ${owner}.`);
   }
 
   // Public interface
+  getMovements() {
+    return this._movements;
+  }
+
   deposit(val) {
-    this.movements.push(val);
+    this._movements.push(val);
   }
 
   withdraw(val) {
@@ -531,13 +536,13 @@ class Account {
   }
 
   // this should be hidden via encapsulation
-  approveLoan(val) {
+  _approveLoan(val) {
     return true;
   }
 
   //This should be public
   requestLoan(val) {
-    if (this.approveLoan(val)) {
+    if (this._approveLoan(val)) {
       this.deposit(val);
       console.log(`Your loan of ${val} was approved.`);
     }
@@ -560,3 +565,14 @@ console.log(acc1);
 console.log(acc1.pin);
 
 //////////////////// Encapsulation: Protected Properties and Methods ///////////////////////////////
+/** Public Interface: the parts that the public can see and access. 
+API = application programming interface. 
+
+Two major reasons that we need encapsulation and data privacy:
+(1) To prevent code from outside of a classes to access and change the data within another class. 
+(2) When we expose only a limited amount of public methods than we can change the other methods with more confidence when we update or change our code. It will not effect the user. 
+
+Of course, JS does not support real privacy or data encapsulation.  */
+console.log(acc1.getMovements());
+
+///////////////////////// Encapsulation: Private Class Fields and Methods ////////////////////////////
