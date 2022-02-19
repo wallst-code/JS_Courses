@@ -606,10 +606,12 @@ class Account2 {
 
   deposit(val) {
     this.#movements.push(val);
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
+    return this;
   }
 
   _approveLoan(val) {
@@ -622,6 +624,7 @@ class Account2 {
       this.deposit(val);
       console.log(`Your loan of ${val} was approved.`);
     }
+    return this;
   }
   // Private methods
   // this should be hidden via encapsulation
@@ -636,4 +639,13 @@ console.log(acc2);
 // console.log(acc2.#movements); // no access due to private field.
 console.log(acc2.getMovements());
 
-///////////////////////////// Chaining Methods ///////////////////////
+///////////////////////////// Chaining Methods //////////////////////////
+// acc2.deposit(300).deposit(500).withdraw(35).requestLoan(2500).withdraw(4000);
+// The above does not work, because we are calling the 2nd deposit method on a return of undefined
+// Because the method does not return a value.
+acc2.deposit(300).deposit(500).withdraw(35).requestLoan(2500).withdraw(4000);
+// We fixed this by adding return this; into the methods.
+// look at the account to see
+console.log(acc2);
+
+////////////// Summary ES6 Classes - see notes
