@@ -356,54 +356,207 @@
 
 ////////////////////////// Inheritance Between Classes Constructor Functions /////////////////
 
-const Person = function (firstName, birthYear) {
-  this.firstName = firstName;
-  this.birthYear = birthYear;
-};
+// const Person = function (firstName, birthYear) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+// };
 
-Person.prototype.calcAge = function () {
-  console.log(2037 - this.birthYear);
-};
+// Person.prototype.calcAge = function () {
+//   console.log(2037 - this.birthYear);
+// };
 
-//build constructor funciton for student
-const Student = function (firstName, birthYear, course) {
-  Person.call(this, firstName, birthYear);
-  this.course = course;
-};
+// //build constructor funciton for student
+// const Student = function (firstName, birthYear, course) {
+//   Person.call(this, firstName, birthYear);
+//   this.course = course;
+// };
 
 //The prototype link must be set here. We must link this before setting any methods to the Student prototype.
 // Order Matters Here!
 //// LINKING PROTOTYPES
-Student.prototype = Object.create(Person.prototype);
+// Student.prototype = Object.create(Person.prototype);
 
-Student.prototype.introduce = function () {
-  console.log(`My name is ${this.firstName}, and I study ${this.course}`);
-};
+// Student.prototype.introduce = function () {
+//   console.log(`My name is ${this.firstName}, and I study ${this.course}`);
+// };
 
-//create new student
-const mike = new Student('Mike', 2020, 'CS');
-console.log(mike);
+// //create new student
+// const mike = new Student('Mike', 2020, 'CS');
+// console.log(mike);
 
-mike.introduce();
-mike.calcAge();
+// mike.introduce();
+// mike.calcAge();
 
-console.log(mike.__proto__);
-console.log(mike.__proto__.__proto__);
+// console.log(mike.__proto__);
+// console.log(mike.__proto__.__proto__);
 
-console.dir(Student.prototype.constructor);
+// console.dir(Student.prototype.constructor);
 
-Student.prototype.constructor = Student;
+// Student.prototype.constructor = Student;
 
-console.dir(Student.prototype.constructor);
+// console.dir(Student.prototype.constructor);
 
-console.log(mike instanceof Student);
-console.log(mike instanceof Person);
-console.log(mike instanceof Object);
+// console.log(mike instanceof Student);
+// console.log(mike instanceof Person);
+// console.log(mike instanceof Object);
 
 ////// Coding Challenge #3 ///////////////
 // skipped see notes
 
 ////////////////////////// Inheritance Between Classes - ES6 Classes /////////////////
 //
+class PersonCl {
+  //constructor must be called constructor and must be first in order
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+  // methods outside of constructor will be in the prototype for inheritance.
+  // methods will be added to .prototype property
+
+  // Instance Methods
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.fullName}`);
+  }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+
+  set fullName(name) {
+    if (name.includes(' ')) {
+      console.log(name);
+      this._fullName = name;
+    } else {
+      alert(`${name} is not a full name!`);
+    }
+  }
+  get fullName() {
+    return this._fullName;
+  }
+
+  // Static Methods
+  static hey() {
+    console.log('Hey there 🙂');
+    console.log(this);
+  }
+}
+
+// for class inheritance we need 2 things: (1) extends keyword, and (2) super()
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    // this needs to happen first.
+    super(fullName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(
+      `My name is ${this.fullName} and I am studying ${this.course}.`
+    );
+  }
+
+  // Overriding (polymorphism) the parent calcAge()
+  // Why - this now appears first in the prototype chain - and so it it found
+  // sooner and the search in the chain stops.
+  calcAge() {
+    console.log(
+      `I'm ${
+        2037 - this.birthYear
+      } years old, but as a student I feel more like ${this.birthYear + 10}`
+    );
+  }
+}
+
+const martha = new StudentCl('Martha Jones', 2012, 'CS');
+martha.introduce();
+martha.calcAge();
 
 ////////////////////////// Inheritance Between Classes -- Object.create() /////////////////
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+
+// Now we want to add a prototype in the middle of the chain
+
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course;
+};
+
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I am studying ${this.course}.`);
+};
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2010, 'CS');
+jay.introduce();
+jay.calcAge();
+
+///////////////// Another Class Example ////////////////
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    // We can add tings that have not been passed yet or even properties like navigator...
+    this.movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account ${owner}.`);
+  }
+
+  // Public interface
+  deposit(val) {
+    this.movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  // this should be hidden via encapsulation
+  approveLoan(val) {
+    return true;
+  }
+
+  //This should be public
+  requestLoan(val) {
+    if (this.approveLoan(val)) {
+      this.deposit(val);
+      console.log(`Your loan of ${val} was approved.`);
+    }
+  }
+}
+
+const acc1 = new Account('Jonas', 'EUR', 1111);
+console.log(acc1);
+
+// We could managage movements (deposits and withdrawls) like this, but
+// it is better to create a function that handles that.
+// acc1.movements.push(250);
+// acc1.movements.push(-140);
+acc1.deposit(250);
+acc1.withdraw(140);
+acc1.requestLoan(1000);
+
+console.log(acc1);
+// this probably should not be publically accesbile.
+console.log(acc1.pin);
+
+//////////////////// Encapsulation: Protected Properties and Methods ///////////////////////////////
