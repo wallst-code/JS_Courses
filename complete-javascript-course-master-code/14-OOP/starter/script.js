@@ -576,3 +576,64 @@ Of course, JS does not support real privacy or data encapsulation.  */
 console.log(acc1.getMovements());
 
 ///////////////////////// Encapsulation: Private Class Fields and Methods ////////////////////////////
+class Account2 {
+  //a public field - these will not just be prototype but in the actual instance
+  // These are still accessible to the this keyword.
+  locale = navigator.language;
+  // _movements = [];
+
+  // Private fields - truly unaccessible from the outside. Uses a # symbol
+  // Again not on the prototype but in the instance.
+  #movements = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.#pin = pin;
+    // We can add tings that have not been passed yet or even properties like navigator...
+    // _ makes this a protected property (not actually private).
+    // this._movements = [];
+    // this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account ${owner}.`);
+  }
+
+  // Public interface public methods
+  getMovements() {
+    return this.#movements;
+  }
+
+  deposit(val) {
+    this.#movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  _approveLoan(val) {
+    return true;
+  }
+
+  //This should be public
+  requestLoan(val) {
+    if (this._approveLoan(val)) {
+      this.deposit(val);
+      console.log(`Your loan of ${val} was approved.`);
+    }
+  }
+  // Private methods
+  // this should be hidden via encapsulation
+  // #approveLoan(val) {
+  //   return true;
+  // }
+}
+console.log(Account2);
+const acc2 = new Account2('May', 'EUR', 2222);
+acc2.deposit(1500);
+console.log(acc2);
+// console.log(acc2.#movements); // no access due to private field.
+console.log(acc2.getMovements());
+
+///////////////////////////// Chaining Methods ///////////////////////
