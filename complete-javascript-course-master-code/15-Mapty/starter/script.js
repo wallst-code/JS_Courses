@@ -120,6 +120,16 @@ class App {
     inputDistance.focus();
   }
 
+  _hideForm() {
+    inputDistance.value = '';
+    inputDuration.value = '';
+    inputCadence.value = '';
+    inputElevation.value = '';
+    form.style.display = 'none';
+    form.classList.add('hidden');
+    setTimeout(() => (form.style.display = 'grid'), 1000);
+  }
+
   _toggleElevationField() {
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
@@ -180,14 +190,10 @@ class App {
     this._renderWorkout(workout);
 
     // Hide form + Clear input fields
-
-    inputDistance.value = '';
-    inputDuration.value = '';
-    inputCadence.value = '';
-    inputElevation.value = '';
-
-    // Adds the marker to the map
+    this._hideForm();
   }
+
+  // Adds the marker to the map
 
   _renderWorkoutMarker(workout) {
     L.marker(workout.coords)
@@ -201,7 +207,9 @@ class App {
           className: `${workout.type}-popup`,
         })
       )
-      .setPopupContent(`${workout.type}`)
+      .setPopupContent(
+        `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
+      )
       .openPopup();
   }
 
@@ -223,7 +231,7 @@ class App {
       <span class="workout__unit">min</span>
     </div>`;
 
-    if (workout.type === 'running') {
+    if (workout.type === 'running')
       html += ` 
       <div class="workout__details">
       <span class="workout__icon">⚡️</span>
@@ -236,11 +244,12 @@ class App {
       <span class="workout__unit">spm</span>
     </div>
   </li>`;
-      if (workout.type === 'cycling') {
-        html += `
+
+    if (workout.type === 'cycling')
+      html += `
         <div class="workout__details">
             <span class="workout__icon">⚡️</span>
-            <span class="workout__value">${workout.speed}/span>
+            <span class="workout__value">${workout.speed.toFixed(1)}</span>
             <span class="workout__unit">km/h</span>
           </div>
           <div class="workout__details">
@@ -249,8 +258,8 @@ class App {
             <span class="workout__unit">m</span>
           </div>
         </li>`;
-      }
-    }
+
+    form.insertAdjacentHTML('afterend', html);
   }
 }
 ///////////////////////////////////////////////////////////////////
