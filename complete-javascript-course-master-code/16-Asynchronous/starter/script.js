@@ -31,7 +31,7 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = 1;
 };
-
+/*
 const getCountryDataAndNeighbor = function (country) {
   // AJAX call Country 1
   const request = new XMLHttpRequest();
@@ -65,3 +65,13 @@ const getCountryDataAndNeighbor = function (country) {
 };
 
 getCountryDataAndNeighbor('usa');
+**/
+
+////////////// Fetch API and Promises ////////////////////////////
+// const request = new XMLHttpRequest();
+//   request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
+//   request.send();
+
+/////// Fetch API - much easier
+const request = fetch('https://restcountries.com/v3.1/name/usa');
+console.log(request);
