@@ -12,7 +12,9 @@ const countriesContainer = document.querySelector('.countries');
 
 const renderCountry = function (data, className = '') {
   const languagesArray = Object.values(data.languages);
+  const [newLanguage] = languagesArray;
   const currenciesArray = Object.values(data.currencies);
+
   const html = `
   <article class="country ${className}">
         <img class="country__img" src="${data.flags.png}" />
@@ -73,5 +75,22 @@ getCountryDataAndNeighbor('usa');
 //   request.send();
 
 /////// Fetch API - much easier
-const request = fetch('https://restcountries.com/v3.1/name/usa');
-console.log(request);
+
+const getCountryData = function (country) {
+  // Country 1
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
+      console.log(neighbour);
+
+      if (!neighbour) return;
+
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(response => response.json())
+    .then(data => renderCountry(data, 'neighbour'));
+};
+getCountryData('germany');
