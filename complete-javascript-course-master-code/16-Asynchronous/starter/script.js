@@ -31,7 +31,7 @@ const renderCountry = function (data, className = '') {
   </p></div>       
   </article>`;
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  countriesContainer.style.opacity = 1;
+  // countriesContainer.style.opacity = 1;
 };
 /*
 const getCountryDataAndNeighbor = function (country) {
@@ -76,21 +76,35 @@ getCountryDataAndNeighbor('usa');
 
 /////// Fetch API - much easier
 
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  // countriesContainer.style.opacity = 1;
+};
+
 const getCountryData = function (country) {
   // Country 1
   fetch(`https://restcountries.com/v3.1/name/${country}`)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       renderCountry(data[0]);
       const neighbour = data[0].borders[0];
-      console.log(neighbour);
 
       if (!neighbour) return;
 
       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
     })
     .then(response => response.json())
-    .then(data => renderCountry(data, 'neighbour'));
+    .then(data => renderCountry(data[0], 'neighbour'))
+    .catch(err => {
+      console.error(`${err} 🧨😡`);
+      renderError(`Something went wrong 💥💥💥 ${err.message} Try Again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
 };
-getCountryData('germany');
+btn.addEventListener('click', function () {
+  getCountryData('germany');
+});
+
+getCountryData('asdasddas');
