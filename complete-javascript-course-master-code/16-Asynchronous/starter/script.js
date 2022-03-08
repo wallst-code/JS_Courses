@@ -107,4 +107,4 @@ btn.addEventListener('click', function () {
   getCountryData('germany');
 });
 
-getCountryData('asdasddas');
+// getCountryData('asdasddas');
