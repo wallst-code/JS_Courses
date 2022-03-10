@@ -122,17 +122,19 @@ getCountryDataAndNeighbor('usa');
 // getCountryData('australia');
 
 //////////////////////// Coding Challenge #17 ///////////////////////////////
-const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`)
-    .then(res => {
-      console.log(res);
-      if (!res.ok) throw new Error(`Problem with geocoding ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      // console.log(data.country);
-      console.log(`You are in ${data.city}, ${data.country}`);
-    })
-    .catch(err => console.error(`${err.message} 💥`));
-};
-whereAmI(52.508, 13.381);
+// const whereAmI = function (lat, lng) {
+//   fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`)
+//     .then(res => {
+//       console.log(res);
+//       if (!res.ok) throw new Error(`Problem with geocoding ${res.status}`);
+//       return res.json();
+//     })
+//     .then(data => {
+//       // console.log(data.country);
+//       console.log(`You are in ${data.city}, ${data.country}`);
+//     });
+//   // return fetch(`https://restcountries.com/v3.1/name/${country}`).catch(err =>
+//   //   console.error(`${err.message} 💥`)
+//   // );
+// };
+// whereAmI(52.508, 13.381);
