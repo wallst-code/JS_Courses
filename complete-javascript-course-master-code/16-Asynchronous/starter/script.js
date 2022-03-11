@@ -31,7 +31,7 @@ const renderCountry = function (data, className = '') {
   </p></div>       
   </article>`;
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 /*
 const getCountryDataAndNeighbor = function (country) {
@@ -148,32 +148,88 @@ getCountryDataAndNeighbor('usa');
 // console.log('Test End');
 
 //////////////////////////// Building a Simple Promise /////////////////////
-const lotteryPromise = new Promise(function (resolve, reject) {
-  console.log('Lottery Draw is beginning 🔮');
-  setTimeout(function () {
-    if (Math.random() >= 0.5) {
-      resolve('You Win 🤑');
-    } else {
-      reject(new Error('You Lose! 💲💩'));
-    }
-  }, 2000);
-});
-lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log('Lottery Draw is beginning 🔮');
+//   setTimeout(function () {
+//     if (Math.random() >= 0.5) {
+//       resolve('You Win 🤑');
+//     } else {
+//       reject(new Error('You Lose! 💲💩'));
+//     }
+//   }, 2000);
+// });
+// lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
 
-///////////////// Promisifying setTimeout ///////////////////
-const wait = function (seconds) {
+// ///////////////// Promisifying setTimeout ///////////////////
+// const wait = function (seconds) {
+//   return new Promise(function (resolve, reject) {
+//     //we do not need reject with the setTimeout because it cannot fail.
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// wait(2)
+//   .then(() => {
+//     console.log('I waited for 2 seconds');
+//     return wait(1);
+//   })
+//   .then(() => console.log('I waited for 1 second'));
+
+// Promise.resolve('resolved value is passed in here').then(x => console.log(x));
+// Promise.reject(new Error('Problem! 💥')).catch(x => console.error(x));
+///////////////////// Promisifying the Geolocation API ////////////////////////////
+
+// navigator.geolocation.getCurrentPosition(
+//   position => console.log(position),
+//   err => console.error(err)
+// );
+
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(
+//       position => resolve(position),
+//       err => reject(err)
+//     );
+//   });
+// };
+
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+// getPosition()
+//   .then(pos => console.log(pos))
+//   .catch(err => console.log(err));
+
+// const whereAmI = function () {};
+
+//////////////////// Consuming Promises with Async/Await //////////////////
+////////////// An even better way to consume promises -- async functions ////////////////////
+
+const getPosition = function () {
   return new Promise(function (resolve, reject) {
-    //we do not need reject with the setTimeout because it cannot fail.
-    setTimeout(resolve, seconds * 1000);
+    navigator.geolocation.getCurrentPosition(resolve, reject);
   });
 };
 
-wait(2)
-  .then(() => {
-    console.log('I waited for 2 seconds');
-    return wait(1);
-  })
-  .then(() => console.log('I waited for 1 second'));
+const whereAmI = async function () {
+  // geolocation
+  const pos = await getPosition();
+  const { latitude: lat, longitude: lng } = pos.coords;
 
-Promise.resolve('resolved value is passed in here').then(x => console.log(x));
-Promise.reject(new Error('Problem! 💥')).catch(x => console.error(x));
+  // reverse geocoding
+  const resGeo = await fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`);
+  const dataGeo = await resGeo.json();
+  console.log(dataGeo);
+
+  // country data
+  const res = await fetch(
+    `https://restcountries.com/v3.1/name/${dataGeo.country}`
+  );
+  const data = await res.json();
+  console.log(data);
+  renderCountry(data[0]);
+};
+whereAmI();
+console.log('This should be 1st');
