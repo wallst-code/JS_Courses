@@ -207,39 +207,39 @@ const renderError = function (msg) {
 //////////////////// Consuming Promises with Async/Await //////////////////
 ////////////// An even better way to consume promises -- async functions ////////////////////
 
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
 
-const whereAmI = async function () {
-  // geolocation
-  try {
-    const pos = await getPosition();
-    const { latitude: lat, longitude: lng } = pos.coords;
+// const whereAmI = async function () {
+//   // geolocation
+//   try {
+//     const pos = await getPosition();
+//     const { latitude: lat, longitude: lng } = pos.coords;
 
-    // reverse geocoding
-    const resGeo = await fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`);
-    if (!resGeo.ok) throw new Error('Problem getting location data.');
-    const dataGeo = await resGeo.json();
-    console.log(dataGeo);
+//     // reverse geocoding
+//     const resGeo = await fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`);
+//     if (!resGeo.ok) throw new Error('Problem getting location data.');
+//     const dataGeo = await resGeo.json();
+//     console.log(dataGeo);
 
-    // country data
-    const res = await fetch(
-      `https://restcountries.com/v3.1/name/${dataGeo.country}`
-    );
-    if (!res.ok) throw new Error('Problem getting location data.');
-    const data = await res.json();
-    console.log(data);
-    renderCountry(data[0]);
-  } catch (err) {
-    console.error(`${err}`);
-    renderError(`Something went wrong 💥 ${err.message}`);
-  }
-};
-whereAmI();
-console.log('This should be 1st');
+//     // country data
+//     const res = await fetch(
+//       `https://restcountries.com/v3.1/name/${dataGeo.country}`
+//     );
+//     if (!res.ok) throw new Error('Problem getting location data.');
+//     const data = await res.json();
+//     console.log(data);
+//     renderCountry(data[0]);
+//   } catch (err) {
+//     console.error(`${err}`);
+//     renderError(`Something went wrong 💥 ${err.message}`);
+//   }
+// };
+// whereAmI();
+// console.log('This should be 1st');
 
 // try {
 //   let y = 1;
@@ -248,3 +248,18 @@ console.log('This should be 1st');
 // } catch (err) {
 //   alert(err.message);
 // }
+
+////////////////////// Returning values from Async Functions /////////////////////////
+
+// (async function () {
+//   try {
+//     let y = 1;
+//     const x = 2;
+//     x = 3;
+//     console.log(y);
+//   } catch (err) {
+//     console.log('problem 1');
+//   } finally {
+//     console.log('done');
+//   }
+// })();
