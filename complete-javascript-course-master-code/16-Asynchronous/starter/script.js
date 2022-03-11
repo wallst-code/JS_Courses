@@ -138,3 +138,7 @@ getCountryDataAndNeighbor('usa');
 //   // );
 // };
 // whereAmI(52.508, 13.381);
+console.log('test Start');
+setTimeout(() => console.log('0 second timer'), 0);
+Promise.resolve('resolved Promise 1').then(res => console.log(res));
+console.log('Test End');
