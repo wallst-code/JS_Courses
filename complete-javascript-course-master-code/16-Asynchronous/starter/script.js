@@ -159,3 +159,21 @@ const lotteryPromise = new Promise(function (resolve, reject) {
   }, 2000);
 });
 lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+///////////////// Promisifying setTimeout ///////////////////
+const wait = function (seconds) {
+  return new Promise(function (resolve, reject) {
+    //we do not need reject with the setTimeout because it cannot fail.
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(2)
+  .then(() => {
+    console.log('I waited for 2 seconds');
+    return wait(1);
+  })
+  .then(() => console.log('I waited for 1 second'));
+
+Promise.resolve('resolved value is passed in here').then(x => console.log(x));
+Promise.reject(new Error('Problem! 💥')).catch(x => console.error(x));
