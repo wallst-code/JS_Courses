@@ -138,11 +138,24 @@ getCountryDataAndNeighbor('usa');
 //   // );
 // };
 // whereAmI(52.508, 13.381);
-console.log('Test Start');
-setTimeout(() => console.log('0 second timer'), 0);
-Promise.resolve('resolved Promise 1').then(res => console.log(res));
-Promise.resolve('Resolved Promise 2').then(res => {
-  for (let i = 0; i < 100000; i++) {}
-  console.log(res);
+// console.log('Test Start');
+// setTimeout(() => console.log('0 second timer'), 0);
+// Promise.resolve('resolved Promise 1').then(res => console.log(res));
+// Promise.resolve('Resolved Promise 2').then(res => {
+//   for (let i = 0; i < 100000; i++) {}
+//   console.log(res);
+// });
+// console.log('Test End');
+
+//////////////////////////// Building a Simple Promise /////////////////////
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('Lottery Draw is beginning 🔮');
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve('You Win 🤑');
+    } else {
+      reject(new Error('You Lose! 💲💩'));
+    }
+  }, 2000);
 });
-console.log('Test End');
+lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
