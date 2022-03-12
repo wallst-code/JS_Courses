@@ -38,3 +38,31 @@ ShoppingCart.test();
 // console.log('last');
 
 /////////////////////////// The Module Pattern ////////////////////////
+const ShoppingCart2 = (function () {
+  const cart = [];
+  const shippingCost = 10;
+  const totalPrice = 237;
+  const totalQuantity = 23;
+  const addtoCart = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(`${quantity} ${product} was added to the cart`);
+  };
+  const orderStock = function (product, quantity) {
+    console.log(`${quantity} ${product} was ordered from the supplier`);
+  };
+
+  // we return an object - this exposes to the outside
+  return {
+    addtoCart,
+    cart,
+    totalPrice,
+    totalQuantity,
+  };
+})();
+
+ShoppingCart2.addtoCart('apples', 12);
+ShoppingCart2.addtoCart('pizza', 5);
+console.log(ShoppingCart2);
+
+// this stays private and thus is undefined
+console.log(ShoppingCart2.shippingCost);
