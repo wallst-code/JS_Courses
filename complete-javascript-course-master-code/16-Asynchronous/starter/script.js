@@ -263,3 +263,17 @@ const renderError = function (msg) {
 //     console.log('done');
 //   }
 // })();
+
+/////////////////////////// Running Promises in Parallel //////////////////////////
+
+///////////////////// Promise Combinators ////////////////////
+
+Promise.any([
+  Promise.resolve('Success 1'),
+  Promise.reject('Reject'),
+  Promise.resolve('Success 2'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.log(err));
+
+///////////// Coding Challenge #3 /////////////////
