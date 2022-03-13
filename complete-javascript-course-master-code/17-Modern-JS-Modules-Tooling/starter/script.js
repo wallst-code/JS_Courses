@@ -65,4 +65,6 @@ ShoppingCart2.addtoCart('pizza', 5);
 console.log(ShoppingCart2);
 
 // this stays private and thus is undefined
-console.log(ShoppingCart2.shippingCost);
+// console.log(ShoppingCart2.shippingCost);
+
+import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
