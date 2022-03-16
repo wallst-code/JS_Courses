@@ -67,4 +67,4 @@ console.log(ShoppingCart2);
 // this stays private and thus is undefined
 // console.log(ShoppingCart2.shippingCost);
 
-import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+// import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
